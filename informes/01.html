@@ -1,87 +1,483 @@
 <!DOCTYPE html>
-<html lang="es">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<!-- 1. Cambiá el título de la pestaña -->
-<title>[Título del informe] — Posdata:</title>
-<meta name="description" content="[Bajada del informe en una frase.]">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=Instrument+Serif:ital@0;1&display=swap">
-<link rel="stylesheet" href="../assets/posdata.css">
-</head>
-<body>
+<html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Menos asalariados, más monotributo y un salario mediano que no se recupera — Posdata:</title>
+<meta name="description" content="Informe mensual de Posdata: sobre empleo y salario real en Argentina, con datos a agosto de 2026. ¿Qué onda nuestros laburos y nuestros sueldos?">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* VOICE: Posdata: — informe de sociología con datos, sobrio, el dato primero.
+   IDEA: una carta que termina en posdata: el detalle que cambia la lectura.
+   PICTURE: series largas a escala real; la serie protagonista en rosa, el resto en azules.
+   COLOUR and TYPE: Abismo, Petróleo, Pizarra, Papel; Rosa solo para el dato. Instrument Serif, IBM Plex Sans y Plex Mono.
+   LAYOUT: cabecera sobre Abismo con logo y cifras clave, láminas sobre Papel, bloque P.D. al cierre. */
+:root{color-scheme:light dark;--bg:light-dark(#FFFFFF,#013440);--card:light-dark(#F5F3F0,#0A3F4C);--ink:light-dark(#013440,#F5F3F0);--ink2:light-dark(#33444F,#D5DCE1);--mute:light-dark(#5E6266,#A9B2B8);--plane:light-dark(#E7E3DD,#1E4F5D);--rule:light-dark(#E9E6E1,#1E4F5D);--acc:#F66C89;--pk:#F66C89;--neg:light-dark(#C7375A,#F66C89);
+--abismo:#013440;--papel:#F5F3F0;
+--s1:#F66C89;--s2:light-dark(#013440,#F5F3F0);--s3:light-dark(#B5AEA4,#8C877F);--s4:light-dark(#7A736A,#C9C3BA);--s5:light-dark(#9C958B,#A9A39A)}
+:root[data-theme=light]{color-scheme:light}:root[data-theme=dark]{color-scheme:dark}
+*{box-sizing:border-box;min-width:0}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 "IBM Plex Sans",system-ui,sans-serif;overflow-x:clip}
+.band{padding:clamp(28px,4vw,64px) max(5vw,16px)}.wrap{max-width:1240px;margin:0 auto}
+header.band{background:var(--abismo);color:var(--papel);--ink:var(--papel);--ink2:#D5DCE1;--card:var(--abismo);--plane:#2A5A68;--rule:#2A5A68}
+.logo{font-family:"Instrument Serif",serif;font-size:clamp(34px,4vw,46px);line-height:1;display:flex;align-items:baseline;gap:0;color:var(--papel)}
+.logo .pk{color:var(--pk)}.colon{display:inline-block;position:relative;width:.2em;height:.44em;margin-left:.06em}.colon i{position:absolute;border-radius:50%;background:var(--pk)}.colon i:first-child{width:.12em;height:.12em;top:0;left:.02em}.colon i:last-child{width:.16em;height:.16em;bottom:0;left:0}
+.colon i{display:block;border-radius:50%;background:var(--pk)}.colon i:first-child{width:.12em;height:.12em;margin-left:.02em}.colon i:last-child{width:.16em;height:.16em}
+.slogan{font-family:"Instrument Serif",serif;font-style:italic;font-size:19px;color:#C9D3DC;margin-top:4px}
+.meta{font-family:"IBM Plex Mono",monospace;font-size:12.5px;color:#9FB0C0;margin-top:22px;letter-spacing:.01em}
+.brandrow{display:flex;justify-content:space-between;align-items:flex-end;gap:16px;flex-wrap:wrap;padding-bottom:22px;border-bottom:1px solid #2A5A68}
+h1{font-family:"Instrument Serif",serif;font-size:clamp(38px,5.2vw,64px);line-height:1.02;font-weight:400;text-wrap:balance;margin:26px 0 16px;max-width:19ch}
+.lead{font-size:17px;max-width:70ch;color:var(--ink2);margin:0}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(220px,100%),1fr));gap:2px;background:var(--plane);margin-top:32px;border:2px solid var(--plane)}
+.kpi{background:var(--card);padding:18px 18px 16px}
+.kpis.top5{grid-template-columns:repeat(3,minmax(0,1fr))}
+.kpis.top5 .kpi h3{min-height:2.9em}.kpis.top5 .kpi .c{min-height:2.9em}
+@media(max-width:760px){.kpis.top5{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:440px){.kpis.top5{grid-template-columns:minmax(0,1fr)}.kpis.top5 .kpi h3,.kpis.top5 .kpi .c{min-height:0}.kpis.top5 h3 br{display:none}}
+.kpi h3{font-size:14px;font-weight:500;color:var(--ink2);margin:0 0 6px}
+.kpi .v{font-family:"IBM Plex Mono",monospace;font-size:clamp(26px,3vw,34px);font-weight:500;letter-spacing:-.02em;line-height:1.1;white-space:nowrap}
+.kpi .c{font-size:14px;color:var(--ink2);margin-top:6px}.kpi.hot{background:var(--pk);color:#013440}.kpi.hot h3,.kpi.hot .c{color:#013440}
+.fighead{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;align-items:end;margin-bottom:10px}
+h2{font-family:"Instrument Serif",serif;font-size:clamp(26px,2.8vw,34px);line-height:1.08;font-weight:400;margin:0;max-width:40ch;text-wrap:balance}
+.sub{color:var(--ink2);font-size:15px;margin:6px 0 0;max-width:70ch}
+.seg{display:flex;border:1px solid var(--ink);flex:none}.seg button{font:inherit;font-size:14px;background:none;color:var(--ink);border:0;padding:0 14px;min-height:44px;cursor:pointer}
+.seg button[aria-pressed=true]{background:var(--ink);color:var(--bg)}button:focus-visible{outline:3px solid var(--s1);outline-offset:2px}
+.fig{position:relative;min-height:360px}.fig.sm{min-height:260px}.fig svg text{font-family:"IBM Plex Mono",monospace}.fig>svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+.legend{display:flex;flex-wrap:wrap;gap:6px 18px;font-size:14px;color:var(--ink2);margin:4px 0 8px}.legend i{display:inline-block;width:14px;height:3px;border-radius:2px;vertical-align:middle;margin-right:6px}
+.tip{position:absolute;pointer-events:none;background:var(--card);font-family:"IBM Plex Mono",monospace;border:1px solid var(--rule);box-shadow:0 2px 10px rgb(0 0 0/.12);padding:8px 10px;font-size:13px;line-height:1.45;white-space:nowrap;display:none;z-index:2}
+.tip b{display:block;margin-bottom:2px}.tip span{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:6px}
+section+section{border-top:1px solid var(--plane)}
+.cols{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);gap:clamp(24px,4vw,56px);align-items:start}
+@media(max-width:860px){.cols{grid-template-columns:minmax(0,1fr)}}
+table{border-collapse:collapse;width:100%;font-size:14px;font-variant-numeric:tabular-nums}th,td{padding:8px 10px;border-bottom:1px solid var(--rule);text-align:right;white-space:nowrap}th:first-child,td:first-child{text-align:left}th{font-weight:600;color:var(--ink2);vertical-align:bottom;white-space:normal}
+.neg{color:var(--neg)}.ctrls{display:flex;gap:10px;flex-wrap:wrap}.notes{color:var(--ink2);font-size:15px;max-width:70ch}.notes li{margin-bottom:8px}
+.ps{background:var(--abismo);color:var(--papel)}.ps .pd{display:grid;grid-template-columns:auto minmax(0,1fr);gap:clamp(18px,3vw,40px);align-items:center}
+.ps .pdl{font-family:"Instrument Serif",serif;font-size:clamp(28px,3vw,38px);color:#C9D3DC}.ps .fig2{font-family:"IBM Plex Mono",monospace;font-size:clamp(40px,5vw,66px);white-space:nowrap;color:var(--pk);line-height:1;letter-spacing:-.03em}
+.ps p{margin:0;font-family:"Instrument Serif",serif;font-size:clamp(22px,2.4vw,30px);line-height:1.2;max-width:40ch}.ps small{display:block;margin-top:26px;font-size:13px;color:#9FB0C0;font-family:"IBM Plex Mono",monospace}
+@media(max-width:600px){.ps .pd{grid-template-columns:minmax(0,1fr)}}
+.per{display:grid;grid-template-columns:minmax(130px,.75fr) minmax(0,1.25fr) minmax(0,1fr);gap:0 22px;align-items:center;font-size:14px}
+.per>div{padding:12px 0;border-bottom:1px solid var(--rule)}.per .hd{font-size:13px;color:var(--ink2);padding:0 0 8px;font-weight:500}
+.per .t b{display:block;font-weight:600}.per .t span{color:var(--ink2);font-size:13px}
+.dv{position:relative;height:34px}.dv .z{position:absolute;left:50%;top:-4px;bottom:-4px;border-left:1px solid var(--ink2)}
+.dv .bar{position:absolute;height:12px;border-radius:2px}.dv .bar.m{top:2px;background:var(--s1)}.dv .bar.p{top:18px;background:var(--s2)}
+.dv .lb{position:absolute;font-size:12px;line-height:12px;white-space:nowrap;font-variant-numeric:tabular-nums}.dv .lb.m{top:2px}.dv .lb.p{top:18px}
+.dbw{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:14px;align-items:center}.dd{font-family:"IBM Plex Mono",monospace;font-weight:500;font-size:15px;font-variant-numeric:tabular-nums;white-space:nowrap;min-width:64px;text-align:right}.db{position:relative;height:44px}.db .ln{position:absolute;top:21px;height:2px;background:var(--ink)}.db .dt{position:absolute;top:16px;width:12px;height:12px;border-radius:50%;margin-left:-6px;border:2px solid var(--ink)}
+.db .dt.e{background:var(--ink)}.db .dt.s{background:var(--bg)}.db .lb{position:absolute;font-size:12px;white-space:nowrap;transform:translateX(-50%);font-variant-numeric:tabular-nums}.db .lb.e{font-weight:600}
+@media(max-width:600px){.per{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}.per .t{grid-column:1/-1;border-bottom:0;padding-bottom:0}.per .hd.h0{display:none}}
+.slicer{margin:6px 0 4px;max-width:100%}.slicer .top{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:center;margin-bottom:6px}
+.slicer .rng{font-family:"IBM Plex Mono",monospace;font-size:14px;font-weight:500;font-variant-numeric:tabular-nums}
+.dual{position:relative;height:44px}.dual .trk{position:absolute;left:11px;right:11px;top:20px;height:4px;background:var(--plane);border-radius:2px}
+.dual .fl{position:absolute;top:0;height:4px;background:var(--ink);border-radius:2px}
+.dual input{position:absolute;inset:0;width:100%;margin:0;background:none;pointer-events:none;-webkit-appearance:none;appearance:none;height:44px}
+.dual input::-webkit-slider-thumb{-webkit-appearance:none;pointer-events:auto;width:22px;height:22px;border-radius:50%;background:var(--bg);border:3px solid var(--ink);cursor:grab}
+.dual input::-moz-range-thumb{pointer-events:auto;width:16px;height:16px;border-radius:50%;background:var(--bg);border:3px solid var(--ink);cursor:grab}
+.dual input:focus-visible::-webkit-slider-thumb{outline:3px solid var(--s1);outline-offset:2px}
+.seg.sm button{min-height:36px;padding:0 12px;font-size:13px}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:6px 0 10px;align-items:center}
+.chip{font:inherit;font-size:14px;display:inline-flex;align-items:center;gap:8px;min-height:36px;padding:0 12px;border:1px solid var(--rule);background:var(--card);color:var(--ink2);cursor:pointer;border-radius:18px}
+.chip i{width:18px;height:4px;border-radius:2px;opacity:.35}.chip[aria-pressed=true]{border-color:var(--ink);color:var(--ink)}.chip[aria-pressed=true] i{opacity:1}
+.chip.ghost{border-style:dashed}.chipsep{width:1px;height:22px;background:var(--rule);margin:0 4px}
+.chip:focus-visible{outline:3px solid var(--s1);outline-offset:2px}
+.yb{display:flex;align-items:flex-end;gap:clamp(4px,1.2vw,14px);height:300px;padding-top:8px;border-bottom:1px solid var(--ink2)}
+.yc{flex:1;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;height:100%;position:relative}
+.ybar{width:100%;max-width:64px;background:var(--plane);border-radius:4px 4px 0 0}.yc.last .ybar{background:var(--s1)}
+.yv{font-family:"IBM Plex Mono",monospace;font-size:13px;font-weight:500;margin-bottom:6px;font-variant-numeric:tabular-nums;white-space:nowrap}.yy{position:absolute;bottom:-24px;font-size:12px;color:var(--mute)}
+.yb{margin-bottom:34px}
+@media(max-width:600px){.yv{font-size:10px}.yy{font-size:11px}.yc .pc{display:none}}
+details.an{margin-top:22px;border-top:2px solid var(--ink);max-width:760px}
+details.an summary{list-style:none;cursor:pointer;font-family:"Instrument Serif",serif;font-size:21px!important;font-weight:400!important;display:flex;align-items:center;gap:10px;min-height:48px;font-weight:600;font-size:16px}
+details.an summary::-webkit-details-marker{display:none}
+details.an summary::before{content:"";width:9px;height:9px;border-right:2px solid var(--ink);border-bottom:2px solid var(--ink);transform:rotate(-45deg);transition:transform .2s;margin:0 4px}
+details.an[open] summary::before{transform:rotate(45deg)}details.an summary:focus-visible{outline:3px solid var(--s1);outline-offset:2px}
+.ant{padding:4px 0 8px;font-size:17px;line-height:1.6}.ant p{margin:0 0 14px;max-width:68ch}
+@media(prefers-reduced-motion:reduce){details.an summary::before{transition:none}}
+.bc .bar{rx:2}
+.kpi .v .u{font-family:"IBM Plex Sans",sans-serif;font-size:.5em;letter-spacing:0;font-weight:500}
+.q{font-family:"Instrument Serif",serif;font-style:italic;font-size:clamp(24px,2.6vw,32px);line-height:1.15;color:var(--ink2);margin:0 0 14px;max-width:34ch;padding-left:16px;border-left:3px solid var(--ink)}
+.herogrid{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);gap:clamp(20px,4vw,56px);align-items:end}
+.hero{margin:0;position:relative;min-height:280px;display:flex;flex-direction:column}.hero svg{width:100%;flex:1;min-height:250px;overflow:visible}
+.hcap{font-family:"IBM Plex Mono",monospace;font-size:12px;color:#9FB0C0;margin-top:8px}
+@media(max-width:860px){.herogrid{grid-template-columns:minmax(0,1fr)}.hero{min-height:220px}.hero svg{min-height:200px}}
+h1.ctr{text-align:center;margin:28px auto 0;max-width:34ch;font-size:clamp(34px,4.6vw,58px);line-height:1.04}
+.herogrid{align-items:center}.herotext .lead{margin-top:0}.herogrid{margin-top:8px}
+.kpis.fl5{grid-template-columns:repeat(5,minmax(0,1fr))}.kpis.fl5 .kpi h3{min-height:2.9em}.kpis.fl5 .kpi .c{min-height:2.9em}
+@media(max-width:1100px){.kpis.fl5{grid-template-columns:repeat(6,minmax(0,1fr))}.kpis.fl5 .kpi{grid-column:span 2}.kpis.fl5 .kpi:nth-child(n+4){grid-column:span 3}}
+@media(max-width:700px){.kpis.fl5{grid-template-columns:repeat(2,minmax(0,1fr))}.kpis.fl5 .kpi,.kpis.fl5 .kpi:nth-child(n+4){grid-column:span 1}.kpis.fl5 .kpi:last-child{grid-column:span 2}}
+@media(max-width:440px){.kpis.fl5{grid-template-columns:minmax(0,1fr)}.kpis.fl5 .kpi:last-child{grid-column:span 1}.kpis.fl5 .kpi h3,.kpis.fl5 .kpi .c{min-height:0}}
+.hb{display:grid;grid-template-columns:minmax(120px,max-content) minmax(0,1fr);gap:6px 16px;align-items:center;font-size:14px;max-width:960px}
+.hb .nm{color:var(--ink);text-align:right}.hb .nm.tot{font-weight:600}
+.hb .tr{position:relative;height:26px}.hb .z{position:absolute;left:50%;top:-4px;bottom:-4px;border-left:1px solid var(--ink2)}
+.hb .br{position:absolute;top:6px;height:14px;border-radius:2px}.hb .vl{position:absolute;top:5px;font-family:"IBM Plex Mono",monospace;font-size:12.5px;white-space:nowrap}
+@media(max-width:600px){.hb{grid-template-columns:minmax(0,1fr)}.hb .nm{text-align:left;margin-top:6px}}
+.kpis.fl3{grid-template-columns:repeat(3,minmax(0,1fr))}.kpis.fl3 .kpi h3{min-height:2.9em}
+@media(max-width:700px){.kpis.fl3{grid-template-columns:minmax(0,1fr)}.kpis.fl3 .kpi h3{min-height:0}}
+.ps .pdh{font-size:clamp(30px,3.6vw,46px)!important;line-height:1.05!important;margin:0 0 14px!important}
+.ps .pdt{font-family:"IBM Plex Sans",sans-serif!important;font-size:17px!important;line-height:1.55!important;color:#D5DCE1;max-width:62ch!important}
+pre,.scroll{overflow-x:auto}html{scroll-padding-top:72px}
+@media(max-width:600px){table{font-size:13px}th,td{padding:6px}}
+@media(prefers-reduced-motion:no-preference){.line{stroke-dasharray:var(--len);stroke-dashoffset:var(--len);animation:draw 1.1s ease-out forwards}@keyframes draw{to{stroke-dashoffset:0}}}
+</style></head><body>
+<header class="band"><div class="wrap">
+<div class="brandrow"><div><a class="logo" href="../index.html" aria-label="Posdata: volver al inicio" style="text-decoration:none"><span class="pk">P</span>os<span class="pk">d</span>ata<span class="colon" aria-hidden="true"><i></i><i></i></span></a><div class="slogan">Ah, y una cosa más: ¿qué onda nuestros laburos y nuestros sueldos?</div></div><div class="meta"><a href="../index.html#informes" style="color:inherit">← Todos los informes</a> · Informe mensual N° 01 · Noviembre de 2026 · Por Diego Tomás Araujo Poumé</div></div>
+<h1 class="ctr">Menos asalariados, más monotributo y un salario mediano que no se recupera</h1>
+<div class="herogrid"><div class="herotext">
+<p class="lead">En agosto de 2026 había 9,45 millones de asalariados registrados, 419 mil menos que en noviembre de 2023. En el mismo período el monotributo sumó 201 mil personas. El salario mediano está 3,3% por debajo de un año atrás en términos reales, y la distancia con el promedio llegó a su punto más alto desde 2017. El salario mínimo es de $398.800 desde noviembre y perdió 41% de poder de compra desde noviembre de 2023.</p></div>
+<figure class="hero" aria-label="Salario mediano real desde 2017"><svg></svg><figcaption class="hcap">Salario mediano real del sector privado registrado, ago-2017 a ago-2026, en pesos de agosto de 2026. La línea gris es el promedio.</figcaption></figure></div>
+<div class="kpis top5">
+<div class="kpi"><h3>Asalariados registrados<br>privados y públicos</h3><div class="v">9.451 mil</div><div class="c">−419 mil desde nov‑2023&nbsp;· −160 mil en un año</div></div>
+<div class="kpi"><h3>Monotributistas<br>(sin monotributo social)</h3><div class="v">2.239 mil</div><div class="c">+201 mil desde nov‑2023&nbsp;· +73 mil en un año</div></div>
+<div class="kpi hot"><h3>Salario mediano real<br>variación interanual</h3><div class="v">−3,3%</div><div class="c">$1.736.710 brutos en ago‑2026</div></div>
+<div class="kpi"><h3>Salario promedio real<br>variación interanual</h3><div class="v">−1,5%</div><div class="c">$2.304.102 brutos en ago‑2026</div></div>
+<div class="kpi"><h3>Salario mínimo, vital y móvil<br>noviembre de 2026</h3><div class="v">$398.800</div><div class="c">−41,0% real desde nov‑2023&nbsp;· 22% del salario mediano</div></div>
+<div class="kpi"><h3>Cuánto de la canasta de pobreza<br>cubre un sueldo mediano neto</h3><div class="v">90%</div><div class="c">de la canasta total de una familia de 4 en ago‑2026&nbsp;· 96% un año antes</div></div>
+</div></div></header>
 
-<header>
-  <div class="wrap">
-    <a class="logo" href="../index.html" aria-label="Posdata: inicio"><span class="r">P</span>os<span class="r">d</span>ata<span class="dp" aria-hidden="true"></span></a>
-    <nav aria-label="Principal">
-      <ul>
-        <li><a href="../index.html#informes">Informes</a></li>
-        <li><a href="../index.html#servicios">Servicios</a></li>
-        <li><a href="../index.html#sobre-mi">Sobre mí</a></li>
-        <li><a href="../index.html#contacto">Contacto</a></li>
-      </ul>
-    </nav>
-  </div>
-</header>
+<section class="band"><div class="wrap">
+<div class="fighead"><div><p class="q">¿Hay menos trabajo, o el trabajo cambió de forma?</p><h2>El empleo asalariado cae desde fines de 2023 y el monotributo es lo único que crece</h2>
+<p class="sub">Puestos registrados por modalidad, índice noviembre de 2023 = 100. El monotributo social queda fuera del gráfico: cayó a un tercio por cambios en el régimen. La línea azul oscura y gruesa es el total registrado, que incluye al monotributo social: de ahí su salto a fines de 2024. Serie original, sin desestacionalizar: para leer la tendencia, comparar contra el mismo mes de otro año. Tocá cada serie para mostrarla u ocultarla.</p></div>
+</div>
+<div class="kpis fl3" style="margin:18px 0 22px"><div class="kpi hot"><h3>Asalariados privados<br>registrados</h3><div class="v">6.073 mil</div><div class="c">−313 mil desde nov‑2023&nbsp;· −132 mil en un año</div></div><div class="kpi"><h3>Asalariados públicos<br>registrados</h3><div class="v">3.378 mil</div><div class="c">−106 mil desde nov‑2023&nbsp;· −28 mil en un año</div></div><div class="kpi"><h3>Monotributistas<br>(sin monotributo social)</h3><div class="v">2.239 mil</div><div class="c">+201 mil desde nov‑2023&nbsp;· +73 mil en un año</div></div></div>
+<div id="slE"></div>
+<div class="chips" id="legE" aria-label="Series visibles"></div>
+<div class="fig" id="figE"><svg role="img" aria-label="Índice de empleo registrado por modalidad"></svg><div class="tip"></div></div>
+<details class="an"><summary>Leer análisis</summary><div class="ant"><p>Entre noviembre de 2023 y agosto de 2026, el sector privado perdió 313 mil puestos asalariados registrados, en términos netos. El sector público perdió 106 mil. En el mismo período, 201 mil personas más se anotaron en el monotributo.</p><p>El empleo privado registrado llegó a su máximo en agosto de 2023, con 6,39 millones de puestos. Hoy tiene 6,07 millones. Es casi la misma cantidad que en agosto de 2019: lo que se ganó en cuatro años se perdió en menos de tres.</p><p>¿Los que perdieron un empleo asalariado se hicieron monotributistas? Estos datos no alcanzan para decirlo. El SIPA cuenta puestos, no sigue a personas. Un monotributista nuevo puede ser un ex asalariado, pero también alguien que antes trabajaba sin registrar. Lo que sí muestran es que el trabajo registrado cambió de forma. Hay menos empleo en relación de dependencia y más trabajo por cuenta propia, que no tiene aguinaldo, vacaciones pagas ni indemnización.</p><p>Una advertencia para leer el gráfico: la serie no está desestacionalizada. En abril de 2026 se perdieron 52 mil puestos privados. Pero abril cae todos los años (49 mil en 2024, 51 mil en 2019), probablemente porque terminan los trabajos de temporada. La comparación que vale es contra el mismo mes del año anterior: contra agosto de 2025 hay 132 mil asalariados privados menos.</p></div></details>
+</div></section>
+<section class="band" id="flujos"><div class="wrap">
+<div class="fighead"><div><p class="q">¿Se despide más, o se contrata menos?</p><h2>Se despide poco, pero casi no se contrata: el empleo privado lleva once meses sin crecer</h2>
+<p class="sub">Encuesta de Indicadores Laborales (EIL) de la Secretaría de Trabajo, septiembre de 2026. Empresas privadas registradas de 10 o más trabajadores (5 o más en algunos aglomerados) de 11 aglomerados urbanos: unos 3,7 millones de puestos.</p></div></div>
+<div class="kpis fl3" style="margin:18px 0 26px">
+<div class="kpi hot"><h3>Tasa de entrada<br>(incorporaciones)</h3><div class="v">1,9</div><div class="c">cada 100 trabajadores en el mes</div></div>
+<div class="kpi"><h3>Tasa de salida<br>(desvinculaciones)</h3><div class="v">1,9</div><div class="c">cada 100: entra la misma cantidad que sale</div></div>
+<div class="kpi"><h3>Expectativas netas<br>de contratación</h3><div class="v">+0,6%</div><div class="c">4,2% espera sumar personal y 3,6% reducirlo</div></div>
+</div>
+<div class="fighead" style="margin-bottom:6px"><div><h3 style="font-size:18px;margin:0">Variación del empleo privado registrado</h3><p class="sub" id="subF" style="margin-top:2px"></p></div>
+<div class="ctrls"><div class="seg sm" id="fCorte" role="group" aria-label="Corte"></div><div class="seg sm" id="fPer" role="group" aria-label="Período"></div></div></div>
+<div class="legend"><span><i style="background:var(--s2)"></i>Crece</span><span><i style="background:var(--pk)"></i>Cae</span></div>
+<div class="hb" id="figF" role="img" aria-label="Variación del empleo por rama, tamaño o aglomerado"></div>
+<p class="sub" style="margin-top:10px">Fuente: Secretaría de Trabajo, Encuesta de Indicadores Laborales, informe de noviembre de 2026 con datos de septiembre.</p>
+<details class="an"><summary>Leer análisis</summary><div class="ant">
+<p>En septiembre de 2026, de cada 100 trabajadores de las empresas relevadas entraron 1,9 y salieron 1,9. Por eso el empleo quedó igual que en agosto. Pero quedó igual en un nivel más bajo: contra septiembre de 2025 hay 0,8% menos puestos, y ya van once meses sin crecimiento.</p>
+<p>El problema no parece ser una ola de despidos. Los despidos sin causa y por fin del período de prueba fueron 0,6 cada 100 trabajadores, menos que hace un año. En un universo de 3,7 millones de puestos, eso equivale a unos 22 mil despidos en el mes. Lo que falta es contratación. Las empresas incorporan poco, y la rotación está entre las más bajas de la serie: en los septiembres de 2005 a 2012, según el gráfico del propio informe, la tasa de entrada solía estar entre 2,3 y 3,6.</p>
+<p>La caída no es pareja. En el último año perdieron puestos Transporte (−2,0%), Servicios financieros y a las empresas (−1,7%), la Industria (−1,5%) y la Construcción (−1,3%). Solo crecieron los Servicios comunales, sociales y personales (+0,3%) y Comercio (+0,2%). Por tamaño, cayeron las empresas chicas y las grandes (−1,2% cada una), mientras que las medianas se sostuvieron. Por región, el Gran Buenos Aires cae más que el interior (−0,9% contra −0,5%).</p>
+<p>Las empresas miran los próximos tres meses con algo de optimismo: el saldo de expectativas es positivo (+0,6%) y más alto que el promedio del año. Pero el dato que más pesa es otro: el 92% de las empresas no espera cambiar su dotación. El escenario más probable es que el empleo siga quieto.</p>
+<p>Un cuidado al cruzar con el apartado anterior: la EIL cubre empresas de 10 o más trabajadores en 11 aglomerados, unos 3,7 millones de puestos. El SIPA cubre a todos los asalariados privados registrados del país, unos 6,1 millones. La EIL además llega un mes más tarde, hasta septiembre.</p>
+</div></details>
+</div></section>
 
-<main>
-  <!-- 2. Cabecera del informe -->
-  <div class="informe-cabecera">
-    <div class="wrap">
-      <span class="etiqueta">Informe mensual · N° 01 · [MES 2026]</span>
-      <h1>[Título del informe]</h1>
-      <p class="bajada">[Bajada: una o dos líneas sobre la pregunta que responde el informe.]</p>
-      <p class="firma">Por Diego Tomás Araujo Poumé</p>
-    </div>
-  </div>
+<section class="band"><div class="wrap">
+<div class="fighead"><div><p class="q">¿Cuánto compra hoy un sueldo, comparado con antes?</p><h2>El salario mediano real está 1,5% abajo de noviembre de 2023 y 20% abajo de 2017</h2>
+<p class="sub" id="subR"></p></div>
+<div class="ctrls"><div class="seg" role="group" aria-label="Unidad del gráfico de salarios"><button id="rPesos" aria-pressed="true">En pesos</button><button id="rIdx" aria-pressed="false">Base 100</button></div>
+<div class="seg" role="group" aria-label="Salario mínimo"><button id="smOn" aria-pressed="false">Agregar salario mínimo</button></div></div></div>
+<div class="kpis fl3" style="margin:18px 0 22px"><div class="kpi hot"><h3>Salario mediano real<br>contra noviembre de 2023</h3><div class="v">−1,5%</div><div class="c">$1.736.710 brutos en ago‑2026</div></div><div class="kpi"><h3>Salario mediano real<br>contra agosto de 2017</h3><div class="v">−20,4%</div><div class="c">lo perdido en la crisis de 2018‑2019 no se recuperó</div></div><div class="kpi"><h3>Salario promedio real<br>contra noviembre de 2023</h3><div class="v">+1,3%</div><div class="c">pero −13,1% contra ago‑2017</div></div></div>
+<div id="slR"></div>
+<div class="legend" id="legR"></div>
+<div class="fig" id="figR"><svg role="img" aria-label="Salario real mediano y promedio"></svg><div class="tip"></div></div>
+<details class="an"><summary>Leer análisis</summary><div class="ant"><p>El salario real de los asalariados privados registrados cayó de golpe con la devaluación de diciembre de 2023. En enero de 2024, la mediana compraba 10,5% menos que en noviembre. Durante 2024 recuperó buena parte. Desde fines de 2025 vuelve a perder: en agosto de 2026 la mediana está 3,3% abajo de un año atrás y 1,5% abajo de noviembre de 2023.</p><p>En el plazo largo el cuadro es peor. Quien cobra el salario mediano gana hoy 20% menos en términos reales que en agosto de 2017. El promedio perdió 13%. Lo que se perdió en la crisis de 2018-2019 nunca se recuperó.</p><p>El salario mínimo siguió otro camino. Perdió 41% de poder de compra desde noviembre de 2023. Hoy equivale al 22% del salario mediano; en 2017 equivalía al 43%. Con esa distancia, el mínimo pesa cada vez menos como referencia para los salarios formales. Sí sigue importando para quienes cobran montos atados a él, como el seguro de desempleo.</p><p>Lo que este gráfico no muestra: son remuneraciones brutas de asalariados privados registrados. No incluye a los informales ni a los estatales. Y está deflactado con un IPC que todavía usa la canasta de consumo de 2004.</p></div></details>
+</div></section>
 
-  <article class="informe">
-    <!-- 3. Cuerpo. Copiá un bloque <h2> + <p> por cada sección -->
-    <div class="barra" aria-hidden="true"></div>
-    <p>[Primer párrafo: el contexto y la pregunta del mes. Oraciones cortas. Si querés destacar una cifra en el texto, ponela así: <strong>00,0 %</strong>.]</p>
+<section class="band"><div class="wrap">
+<div class="fighead"><div><p class="q">¿El salario le está ganando o perdiendo a la inflación?</p><h2>La mediana lleva 11 meses seguidos de caída real interanual</h2>
+<p class="sub">Variación real de la remuneración mediana y promedio contra el mismo mes del año anterior. La zona roja marca pérdida de poder de compra.</p></div></div>
+<div class="kpis fl3" style="margin:18px 0 22px"><div class="kpi hot"><h3>Salario mediano real<br>variación interanual</h3><div class="v">−3,3%</div><div class="c">en ago‑2026&nbsp;· 11 meses seguidos en negativo</div></div><div class="kpi"><h3>Salario promedio real<br>variación interanual</h3><div class="v">−1,5%</div><div class="c">en ago‑2026&nbsp;· negativo en 8 de los últimos 12 meses</div></div><div class="kpi"><h3>Inflación<br>interanual (IPC)</h3><div class="v">33,5%</div><div class="c">contra subas nominales de 29,2% (mediana) y 31,6% (promedio)</div></div></div>
+<div id="slV"></div>
+<div class="legend" id="legV"></div>
+<div class="fig sm" id="figV"><svg role="img" aria-label="Variación interanual real de la mediana y el promedio"></svg><div class="tip"></div></div>
+<details class="an"><summary>Leer análisis</summary><div class="ant"><p>La mediana lleva 11 meses seguidos por debajo del mismo mes del año anterior, desde octubre de 2025. El promedio estuvo más cerca de cero, y en abril de 2026 quedó apenas arriba (+0,1%).</p><p>El pico de fines de 2024, de casi +16%, no fue una mejora excepcional. Esos meses se comparaban contra los peores, los de la devaluación de diciembre de 2023. Es un efecto de base. Por eso esta serie hay que leerla junto con el nivel del gráfico anterior.</p><p>La pregunta para los próximos meses es si la caída se frena. La inflación mensual subió de 1,7% en agosto a 2,2% en octubre. Si las paritarias no acompañan esa suba, la caída real interanual va a seguir.</p></div></details>
 
-    <h2>[Primera sección]</h2>
-    <p>[Desarrollo de la sección.]</p>
+</div></section>
+<section class="band" id="canastas"><div class="wrap">
+<div class="fighead"><div><p class="q">¿Alcanza un sueldo para que una familia no sea pobre?</p><h2>Un sueldo mediano neto ya no alcanza para la canasta de pobreza de una familia de cuatro</h2>
+<p class="sub">Qué parte de la canasta del hogar compra un sueldo del sector privado registrado. 100% es la canasta completa: debajo de esa línea, un solo sueldo no alcanza para que el hogar no sea pobre (o indigente, con la canasta alimentaria). Serie sin junio ni diciembre, los meses con aguinaldo.</p></div></div>
+<div class="kpis" id="kC" style="margin:18px 0 22px"></div>
+<div class="ctrls" style="margin-bottom:6px">
+<div class="seg sm" id="cSal" role="group" aria-label="Salario"></div>
+<div class="seg sm" id="cCan" role="group" aria-label="Canasta"></div>
+<div class="seg sm" id="cHog" role="group" aria-label="Tipo de hogar"></div>
+<div class="seg sm" id="cNet" role="group" aria-label="Salario bruto o neto"></div></div>
+<p class="sub" id="hogDesc" style="margin:4px 0 10px"></p>
+<div id="slC"></div>
+<div class="legend"><span><i style="background:var(--s2)"></i>Cubre la canasta completa</span><span><i style="background:var(--pk)"></i>No llega a cubrirla</span></div>
+<div class="fig" id="figC"><svg role="img" aria-label="Porcentaje de la canasta que cubre el salario"></svg><div class="tip"></div></div>
+<details class="an"><summary>Leer análisis</summary><div class="ant">
+<p>En agosto de 2026, un sueldo mediano neto del sector privado registrado cubría el 90% de la canasta básica total de una familia de cuatro integrantes. Con un solo sueldo, esa familia queda por debajo de la línea de pobreza. En bruto, antes de descontar los aportes, el mismo sueldo cubría el 108%.</p>
+<p>Hace un año, la misma cuenta daba 96% en neto. La cobertura cayó más que el salario real (−3,3%) porque la canasta subió más que el IPC: 39,6% contra 33,5% interanual. Los bienes y servicios que forman la canasta se encarecieron más rápido que el promedio de los precios.</p>
+<p>No es una situación nueva. En neto, el sueldo mediano no llegó a cubrir la canasta en 80 de los 97 meses de la serie (sin contar junio ni diciembre). Solo la superó entre 2017 y agosto de 2018, con un máximo de 113% en julio de 2017. El punto más bajo fue marzo de 2024: 73% en neto y 88% en bruto.</p>
+<p>Esta comparación supone que en el hogar trabaja una sola persona, y muchos hogares tienen dos ingresos o más. Además usa el salario de los asalariados privados registrados, que suele ser más alto que el de los informales. La EPH permite hacer la misma cuenta con los ingresos reales de cada hogar.</p>
+</div></details>
+</div></section>
+<section class="band" id="brecha"><div class="wrap">
+<div class="fighead"><div><p class="q">¿Los aumentos llegan parejo a todos?</p><h2>La brecha entre el salario promedio y el mediano se abrió 3,7 puntos desde noviembre de 2023</h2>
+<p class="sub">Brecha = cuánto supera el salario promedio al mediano, en %. Si sube, los salarios de arriba de la distribución se alejan del trabajador del medio.</p></div></div>
+<div class="kpis" id="kB" style="margin:18px 0 22px"></div>
+<div class="fighead" style="margin-bottom:4px"><div><h3 style="font-size:18px;margin:0 0 4px">Brecha promedio de enero a agosto de cada año</h3>
+<p class="sub" id="subYB" style="margin-bottom:10px"></p></div></div>
+<div class="yb" id="figB" role="img" aria-label="Brecha promedio de enero a agosto por año"></div>
+<div style="margin-top:28px">
+<div><div class="fighead" style="margin-bottom:4px"><h3 style="font-size:18px;margin:0">Cómo se abrió la brecha, por período</h3><div class="seg sm"><button id="perOld" aria-pressed="false">Ver períodos anteriores</button></div></div>
+<div class="legend"><span><i style="background:var(--s1)"></i>Mediana</span><span><i style="background:var(--s2)"></i>Promedio</span><span>○ brecha al inicio → ● al final</span></div>
+<div class="per" id="perB"></div>
+<p class="sub">Se comparan meses de agosto o noviembre para evitar el aguinaldo y los meses de bonos. Cuando la barra rosa (mediana) queda por debajo de la oscura (promedio), la brecha se abre.</p></div>
+</div>
+<details class="an"><summary>Leer análisis</summary><div class="ant">
+<p>La brecha mide cuánto se separa el salario promedio del salario del trabajador del medio. Si los aumentos llegan parejo a todos, la brecha queda quieta. Si llegan más a los que ya ganan más, sube.</p>
+<p>Desde noviembre de 2023 la brecha pasó de 29,0% a 32,7%. No se abrió porque cayeran los dos salarios: el promedio subió 1,3% en términos reales y la mediana bajó 1,5%. En el último año la tendencia siguió: la brecha sumó 2,4 puntos. Medida en enero-agosto, 2026 marca 36,4%, el valor más alto desde 2017.</p>
+<p>Hay dos explicaciones posibles, y estos datos no permiten elegir entre ellas. Una es que los aumentos se concentran arriba, en ramas con salarios altos. La otra es de composición: si se pierden puestos de salarios bajos, el promedio sube aunque nadie cobre más. Para separarlas hace falta la remuneración por rama de actividad o los percentiles de la EPH.</p>
+<p>En perspectiva, la brecha viene subiendo desde antes: en 2017 era de 25,9% (enero-agosto). En la crisis de 2018-2019 se abrió porque la mediana cayó más que el promedio. Lo distinto de estos tres años es el camino: ahora el promedio sube y la mediana no.</p>
+<p>Dos cuidados más. Entre enero y abril la brecha es más alta (36% en promedio, contra 27-29% el resto del año), probablemente por los bonos anuales y por el momento en que cierran las paritarias de los salarios altos. Y no es una medida completa de desigualdad: no dice qué pasa en cada punta de la distribución.</p>
+</div></details>
+</div></section>
 
-    <!-- 4. Gráfico: reemplazá el bloque .lugar por tu imagen, por ejemplo <img src="img/01-grafico.png" alt="Descripción del gráfico"> -->
-    <figure class="figura">
-      <div class="lugar">[Acá va el gráfico]</div>
-      <figcaption>Gráfico 1. [Qué muestra el gráfico]. Fuente: [FUENTE, FECHA].</figcaption>
-    </figure>
 
-    <h2>[Segunda sección]</h2>
-    <p>[Desarrollo de la sección.]</p>
 
-    <!-- 5. La posdata: el dato que cambia la lectura -->
-    <aside class="pd" aria-label="Posdata del informe">
-      <span class="etiqueta">P.D.</span>
-      <span class="cifra">[00,0 %]</span>
-      <p>[El dato que cambia la lectura, en una frase.]</p>
-      <span class="fuente">Fuente: [FUENTE, FECHA]</span>
-    </aside>
-
-    <!-- 6. Fuentes y metodología -->
-    <section class="metodologia" aria-label="Fuentes y metodología">
-      <h2>Fuentes y metodología</h2>
-      <ul>
-        <li>[Fuente 1: nombre, organismo, período.]</li>
-        <li>[Notas sobre el procesamiento: deflactores, ponderadores, etc.]</li>
-      </ul>
-    </section>
-
-    <a class="volver" href="../index.html#informes">← Volver a todos los informes</a>
-  </article>
-</main>
-
-<footer>
-  <div class="wrap">
-    <span class="logo"><span class="r">P</span>os<span class="r">d</span>ata<span class="dp" aria-hidden="true"></span></span>
-    <span>Ah, y una cosa más: el dato. · © 2026 Diego Tomás Araujo Poumé</span>
-  </div>
-</footer>
-
-</body>
-</html>
+<footer class="band ps"><div class="wrap"><div class="pd"><div><div class="pdl">P.D.</div><div class="fig2">8 de cada 10</div></div>
+<div><p class="pdh">No sos vos, es el mercado laboral.</p>
+<p class="pdt">En 8 de cada 10 meses desde 2017, un sueldo mediano neto no alcanzó para la canasta de pobreza de una familia de cuatro. Hoy compra 0,90 canastas. Y las empresas casi no contratan: entran 1,9 de cada 100 trabajadores por mes.</p></div></div>
+<small>Posdata: · Ah, y una cosa más: el dato.</small></div></footer>
+<script type="application/json" id="data">
+{"emp":{"d":["2017-01","2017-02","2017-03","2017-04","2017-05","2017-06","2017-07","2017-08","2017-09","2017-10","2017-11","2017-12","2018-01","2018-02","2018-03","2018-04","2018-05","2018-06","2018-07","2018-08","2018-09","2018-10","2018-11","2018-12","2019-01","2019-02","2019-03","2019-04","2019-05","2019-06","2019-07","2019-08","2019-09","2019-10","2019-11","2019-12","2020-01","2020-02","2020-03","2020-04","2020-05","2020-06","2020-07","2020-08","2020-09","2020-10","2020-11","2020-12","2021-01","2021-02","2021-03","2021-04","2021-05","2021-06","2021-07","2021-08","2021-09","2021-10","2021-11","2021-12","2022-01","2022-02","2022-03","2022-04","2022-05","2022-06","2022-07","2022-08","2022-09","2022-10","2022-11","2022-12","2023-01","2023-02","2023-03","2023-04","2023-05","2023-06","2023-07","2023-08","2023-09","2023-10","2023-11","2023-12","2024-01","2024-02","2024-03","2024-04","2024-05","2024-06","2024-07","2024-08","2024-09","2024-10","2024-11","2024-12","2025-01","2025-02","2025-03","2025-04","2025-05","2025-06","2025-07","2025-08","2025-09","2025-10","2025-11","2025-12","2026-01","2026-02","2026-03","2026-04","2026-05","2026-06","2026-07","2026-08"],"priv":[6224.4,6226.6,6248.4,6190.3,6188.8,6193.2,6202.0,6212.0,6221.5,6255.3,6282.2,6296.9,6309.3,6308.1,6322.6,6279.7,6251.1,6216.7,6215.1,6212.9,6181.2,6194.6,6182.8,6167.4,6179.2,6187.6,6177.3,6126.5,6097.0,6070.3,6079.7,6071.2,6041.9,6039.4,6033.1,6020.7,6021.9,6028.4,5994.4,5836.9,5787.4,5776.6,5768.5,5770.0,5780.9,5795.1,5816.8,5826.0,5850.6,5872.0,5907.4,5895.1,5870.0,5869.2,5876.0,5895.3,5916.1,5940.3,5988.5,6027.7,6069.3,6095.1,6129.7,6110.2,6118.0,6134.0,6169.3,6186.8,6210.8,6236.6,6278.2,6296.2,6333.4,6348.2,6377.5,6339.7,6347.8,6353.1,6374.5,6387.7,6371.6,6374.4,6385.8,6379.1,6363.9,6337.9,6306.6,6257.5,6228.0,6199.5,6210.7,6215.3,6224.2,6249.8,6267.8,6285.7,6290.1,6299.0,6285.0,6258.7,6244.1,6216.8,6216.8,6204.9,6199.4,6197.8,6193.3,6197.4,6190.5,6190.2,6182.4,6129.9,6102.1,6088.4,6080.9,6072.9],"pub":[3114.4,3098.9,3091.0,3109.0,3134.4,3157.9,3149.1,3153.2,3165.7,3169.5,3179.0,3201.2,3168.4,3135.4,3128.2,3143.6,3154.1,3172.0,3159.1,3170.3,3164.9,3174.1,3176.6,3195.4,3155.8,3145.2,3136.2,3164.3,3180.1,3200.0,3189.1,3192.3,3208.6,3218.9,3222.1,3249.1,3195.5,3186.0,3186.4,3190.6,3195.2,3210.3,3199.2,3207.5,3211.5,3215.0,3237.8,3257.6,3211.2,3215.9,3229.3,3246.8,3270.7,3293.6,3287.5,3303.2,3314.1,3329.0,3345.1,3372.9,3320.3,3311.7,3317.4,3333.9,3353.5,3381.3,3375.8,3372.5,3382.0,3387.4,3405.2,3423.0,3382.8,3388.4,3392.4,3412.2,3437.9,3467.5,3458.3,3470.4,3473.9,3477.7,3484.3,3508.4,3426.4,3420.8,3415.5,3420.2,3424.9,3442.8,3422.6,3421.9,3427.0,3430.9,3434.2,3446.9,3402.7,3386.0,3383.3,3392.0,3396.9,3426.4,3407.6,3406.4,3415.2,3413.3,3412.5,3427.8,3374.5,3373.0,3371.2,3370.3,3380.0,3396.6,3385.2,3378.3],"casas":[459.8,460.7,460.1,462.8,465.3,465.6,468.6,469.8,471.7,472.9,473.1,472.4,477.2,478.6,479.7,481.2,481.2,482.6,487.5,490.8,492.9,491.0,490.4,488.6,492.5,493.3,493.4,495.8,497.2,496.7,498.4,499.8,500.8,501.3,500.2,498.1,500.4,500.1,498.0,490.5,482.5,481.7,482.1,481.0,479.8,478.2,476.6,473.1,474.7,473.3,473.1,475.2,475.9,474.1,474.2,474.1,473.4,474.1,473.3,472.9,473.4,472.5,472.4,473.1,473.3,471.4,472.7,473.6,473.8,471.9,469.8,467.7,468.2,467.0,466.5,468.4,467.3,466.4,468.0,469.4,470.7,468.2,464.5,460.7,459.3,456.7,454.7,453.1,450.3,449.3,449.5,451.1,451.8,449.9,447.7,444.6,444.0,443.9,443.5,442.6,440.7,439.3,440.0,440.8,440.1,438.4,438.1,440.8,443.0,443.5,443.5,444.4,444.3,442.4,442.4,443.1],"mono":[1507.9,1522.7,1519.4,1520.0,1533.3,1540.1,1550.8,1570.6,1582.3,1599.3,1598.8,1593.9,1595.7,1594.6,1593.8,1596.0,1600.8,1607.0,1606.4,1609.5,1615.7,1577.7,1573.2,1566.9,1582.3,1596.1,1576.6,1578.3,1585.1,1582.4,1596.0,1605.9,1622.1,1629.4,1620.9,1625.3,1630.4,1627.9,1606.4,1586.1,1551.6,1569.7,1593.8,1625.2,1646.0,1665.1,1652.3,1645.7,1648.9,1655.5,1663.8,1687.0,1693.2,1708.9,1732.5,1736.7,1767.7,1785.1,1800.2,1769.9,1777.1,1799.7,1818.8,1844.4,1873.6,1824.6,1862.0,1899.6,1879.6,1908.4,1943.2,1895.8,1910.5,1920.9,1920.4,1926.4,1967.5,1987.6,1984.4,2017.0,2010.1,2042.4,2037.8,2044.8,2064.3,2079.5,2077.5,2077.4,2072.5,2069.4,2088.9,2111.0,2110.7,2097.8,2086.6,2084.2,2102.0,2119.7,2129.7,2138.4,2155.7,2166.3,2156.1,2165.8,2183.4,2183.4,2187.6,2193.4,2206.7,2212.0,2211.1,2205.4,2211.0,2217.2,2219.9,2239.0],"auto":[410.2,406.5,400.4,396.8,397.6,398.3,399.2,399.9,401.4,404.5,404.5,403.6,405.3,404.4,400.3,400.2,399.8,401.7,401.9,401.9,403.2,401.7,401.5,399.8,403.5,401.9,396.7,395.2,394.6,394.9,396.5,402.8,403.1,400.7,406.1,405.0,404.7,399.0,389.0,380.2,377.4,379.5,391.7,394.8,394.4,386.8,381.6,377.2,378.2,379.2,377.4,377.5,377.7,377.5,377.9,387.3,388.7,387.6,386.0,385.4,387.1,387.7,385.5,387.2,389.9,392.5,395.0,395.1,394.8,394.3,394.8,396.5,400.3,400.2,396.6,400.6,402.5,405.2,408.1,411.2,413.0,410.0,385.8,382.8,385.4,408.2,408.7,410.7,409.1,409.4,407.8,406.7,405.3,400.7,397.7,400.2,401.0,399.8,394.1,394.1,394.4,394.2,393.0,393.4,391.6,391.1,390.4,398.4,402.2,402.6,392.1,388.3,385.3,383.1,381.8,381.5],"monosoc":[380.6,380.5,387.7,388.4,387.8,393.8,400.0,399.7,409.8,408.6,412.5,419.3,418.9,423.4,422.9,417.2,414.3,405.0,343.5,346.6,345.8,349.4,353.6,361.0,352.1,344.5,358.2,358.5,355.1,356.6,350.9,365.5,359.3,355.5,365.1,365.6,366.1,365.4,362.4,355.5,352.8,350.2,355.5,352.1,352.3,353.1,354.3,353.2,358.7,363.0,363.2,361.2,366.7,368.2,367.0,394.5,401.4,398.0,394.2,440.0,439.6,441.7,438.3,435.8,432.4,512.7,509.1,503.2,559.0,555.5,550.8,611.6,608.6,603.9,602.1,602.7,597.9,592.5,612.0,595.0,623.3,605.9,634.7,637.4,648.3,643.8,631.5,631.5,651.2,657.7,647.8,649.3,651.1,651.0,653.4,259.2,251.8,241.7,234.9,231.2,229.1,226.5,248.9,248.0,243.6,240.5,248.9,253.0,249.4,247.0,241.8,236.7,232.1,227.3,220.7,218.2],"total":[12097.3,12095.8,12107.1,12067.3,12107.3,12148.8,12169.7,12205.2,12252.3,12310.1,12350.2,12387.3,12374.9,12344.5,12347.4,12317.9,12301.3,12285.0,12213.5,12232.0,12203.8,12188.5,12178.0,12179.2,12165.5,12168.6,12138.5,12118.7,12109.1,12100.9,12110.5,12137.4,12135.7,12145.2,12147.6,12163.8,12119.0,12106.9,12036.6,11839.7,11747.0,11768.0,11791.0,11830.6,11864.9,11893.3,11919.4,11932.8,11922.4,11958.9,12014.2,12042.7,12054.2,12091.4,12115.1,12191.0,12261.3,12314.2,12387.3,12468.9,12466.8,12508.5,12562.2,12584.7,12640.7,12716.5,12784.0,12830.9,12900.0,12954.1,13042.0,13090.8,13103.9,13128.6,13155.6,13150.0,13220.8,13272.4,13305.3,13350.7,13362.6,13378.6,13392.8,13413.3,13347.7,13346.8,13294.5,13250.4,13235.9,13228.2,13227.4,13255.3,13270.2,13280.1,13287.4,12921.0,12891.7,12890.0,12870.5,12857.1,12860.9,12869.5,12862.5,12859.4,12873.3,12864.4,12870.9,12910.7,12866.2,12868.4,12842.0,12775.0,12754.7,12754.9,12730.9,12733.0],"priv_i":[97.47,97.51,97.85,96.94,96.92,96.98,97.12,97.28,97.43,97.96,98.38,98.61,98.8,98.78,99.01,98.34,97.89,97.35,97.33,97.29,96.8,97.01,96.82,96.58,96.77,96.9,96.74,95.94,95.48,95.06,95.21,95.07,94.61,94.58,94.48,94.28,94.3,94.4,93.87,91.4,90.63,90.46,90.33,90.36,90.53,90.75,91.09,91.23,91.62,91.95,92.51,92.32,91.92,91.91,92.02,92.32,92.64,93.02,93.78,94.39,95.04,95.45,95.99,95.68,95.81,96.06,96.61,96.88,97.26,97.66,98.31,98.6,99.18,99.41,99.87,99.28,99.41,99.49,99.82,100.03,99.78,99.82,100.0,99.9,99.66,99.25,98.76,97.99,97.53,97.08,97.26,97.33,97.47,97.87,98.15,98.43,98.5,98.64,98.42,98.01,97.78,97.35,97.35,97.17,97.08,97.06,96.99,97.05,96.94,96.94,96.82,95.99,95.56,95.34,95.23,95.1],"pub_i":[89.38,88.94,88.71,89.23,89.96,90.63,90.38,90.5,90.86,90.96,91.24,91.87,90.93,89.98,89.78,90.22,90.52,91.04,90.67,90.99,90.83,91.1,91.17,91.71,90.57,90.27,90.01,90.82,91.27,91.84,91.53,91.62,92.09,92.38,92.47,93.25,91.71,91.44,91.45,91.57,91.7,92.14,91.82,92.06,92.17,92.27,92.93,93.49,92.16,92.3,92.68,93.18,93.87,94.53,94.35,94.8,95.11,95.54,96.0,96.8,95.29,95.05,95.21,95.68,96.25,97.04,96.89,96.79,97.06,97.22,97.73,98.24,97.09,97.25,97.36,97.93,98.67,99.52,99.25,99.6,99.7,99.81,100.0,100.69,98.34,98.18,98.03,98.16,98.29,98.81,98.23,98.21,98.35,98.47,98.56,98.93,97.66,97.18,97.1,97.35,97.49,98.34,97.8,97.76,98.02,97.96,97.94,98.38,96.85,96.81,96.75,96.73,97.01,97.48,97.16,96.96],"casas_i":[98.98,99.18,99.05,99.63,100.17,100.24,100.88,101.14,101.54,101.81,101.85,101.71,102.73,103.04,103.26,103.59,103.59,103.9,104.96,105.66,106.11,105.7,105.57,105.2,106.03,106.2,106.23,106.74,107.03,106.94,107.3,107.59,107.81,107.93,107.69,107.24,107.72,107.67,107.22,105.61,103.88,103.7,103.8,103.56,103.29,102.94,102.6,101.85,102.19,101.9,101.86,102.29,102.45,102.07,102.09,102.06,101.91,102.07,101.89,101.8,101.91,101.72,101.71,101.86,101.9,101.48,101.77,101.96,102.0,101.58,101.14,100.69,100.8,100.53,100.43,100.85,100.59,100.41,100.75,101.05,101.34,100.8,100.0,99.18,98.88,98.31,97.89,97.54,96.93,96.74,96.78,97.11,97.27,96.85,96.39,95.72,95.59,95.57,95.48,95.28,94.88,94.57,94.73,94.9,94.74,94.38,94.32,94.89,95.36,95.48,95.47,95.68,95.64,95.24,95.24,95.38],"mono_i":[74.0,74.72,74.56,74.59,75.25,75.58,76.1,77.07,77.65,78.48,78.46,78.22,78.31,78.25,78.21,78.32,78.56,78.86,78.83,78.99,79.29,77.42,77.2,76.89,77.65,78.33,77.37,77.45,77.78,77.66,78.32,78.81,79.6,79.96,79.55,79.76,80.01,79.89,78.83,77.83,76.14,77.03,78.22,79.76,80.77,81.71,81.09,80.76,80.92,81.24,81.65,82.78,83.09,83.86,85.02,85.23,86.75,87.6,88.34,86.86,87.21,88.32,89.26,90.51,91.94,89.54,91.38,93.22,92.24,93.65,95.36,93.04,93.76,94.27,94.24,94.53,96.55,97.54,97.38,98.98,98.64,100.23,100.0,100.35,101.3,102.05,101.95,101.94,101.7,101.55,102.51,103.6,103.58,102.95,102.4,102.28,103.15,104.02,104.51,104.94,105.79,106.31,105.81,106.28,107.15,107.15,107.35,107.64,108.29,108.55,108.51,108.23,108.5,108.8,108.94,109.87],"auto_i":[106.33,105.38,103.8,102.85,103.08,103.24,103.47,103.65,104.04,104.87,104.86,104.63,105.06,104.84,103.76,103.74,103.63,104.13,104.19,104.18,104.53,104.12,104.09,103.65,104.61,104.17,102.83,102.45,102.29,102.36,102.77,104.42,104.49,103.87,105.26,104.99,104.91,103.44,100.83,98.56,97.84,98.38,101.55,102.33,102.24,100.28,98.92,97.78,98.05,98.3,97.83,97.85,97.9,97.86,97.96,100.39,100.76,100.48,100.05,99.91,100.35,100.49,99.92,100.38,101.06,101.75,102.39,102.42,102.34,102.21,102.34,102.77,103.77,103.74,102.81,103.85,104.34,105.04,105.79,106.6,107.06,106.27,100.0,99.23,99.91,105.81,105.94,106.46,106.05,106.12,105.72,105.41,105.06,103.87,103.08,103.75,103.95,103.63,102.16,102.16,102.25,102.18,101.87,101.97,101.5,101.37,101.2,103.26,104.26,104.37,101.63,100.66,99.88,99.31,98.97,98.9]},"rem":{"d":["2016-12","2017-01","2017-02","2017-03","2017-04","2017-05","2017-06","2017-07","2017-08","2017-09","2017-10","2017-11","2017-12","2018-01","2018-02","2018-03","2018-04","2018-05","2018-06","2018-07","2018-08","2018-09","2018-10","2018-11","2018-12","2019-01","2019-02","2019-03","2019-04","2019-05","2019-06","2019-07","2019-08","2019-09","2019-10","2019-11","2019-12","2020-01","2020-02","2020-03","2020-04","2020-05","2020-06","2020-07","2020-08","2020-09","2020-10","2020-11","2020-12","2021-01","2021-02","2021-03","2021-04","2021-05","2021-06","2021-07","2021-08","2021-09","2021-10","2021-11","2021-12","2022-01","2022-02","2022-03","2022-04","2022-05","2022-06","2022-07","2022-08","2022-09","2022-10","2022-11","2022-12","2023-01","2023-02","2023-03","2023-04","2023-05","2023-06","2023-07","2023-08","2023-09","2023-10","2023-11","2023-12","2024-01","2024-02","2024-03","2024-04","2024-05","2024-06","2024-07","2024-08","2024-09","2024-10","2024-11","2024-12","2025-01","2025-02","2025-03","2025-04","2025-05","2025-06","2025-07","2025-08","2025-09","2025-10","2025-11","2025-12","2026-01","2026-02","2026-03","2026-04","2026-05","2026-06","2026-07","2026-08"],"med":[3046042,2130556,2058916,2039745,2075284,2097439,3054143,2201318,2181909,2146075,2153613,2129833,3052346,2113640,2051279,2033829,2074945,2083157,2937725,2006280,2003833,1887419,1902578,1955108,2737700,1965696,1843896,1848179,1825497,1866286,2662966,1888343,1852024,1813513,1855971,1789772,2562328,1877093,1880672,1861534,1777407,1779275,2619581,1781924,1760449,1752544,1821799,1782752,2550376,1767769,1781354,1771065,1763088,1784502,2537897,1781208,1808545,1796099,1779069,1822419,2565507,1816128,1776105,1791892,1778112,1820171,2556888,1727339,1787511,1794980,1727841,1765798,2660367,1746404,1728726,1761359,1795491,1812086,2563330,1823738,1875556,1822567,1796737,1762961,2248207,1578484,1572249,1561431,1655516,1670786,2433133,1736718,1728446,1723737,1785405,1765026,2617625,1811859,1768047,1767205,1760515,1764697,2594217,1792433,1795395,1773474,1779090,1738494,2601788,1771522,1729775,1702016,1729281,1699680,2496767,1725045,1736710],"prom":[3828142,2797286,2638542,2709939,2596879,2585953,3757269,2684167,2650234,2622229,2656555,2645666,3793578,2783560,2616240,2690984,2615684,2590209,3604375,2515538,2476983,2380666,2368411,2407896,3446042,2554726,2393347,2469617,2369750,2373856,3339685,2401604,2364665,2298319,2392851,2305620,3296765,2506812,2485243,2486557,2290083,2235576,3258241,2276872,2254814,2272651,2324596,2293489,3288719,2411107,2355275,2411185,2331025,2270884,3227429,2328198,2325086,2321005,2343960,2369973,3388904,2489872,2390638,2486504,2367583,2355356,3277841,2263566,2258167,2277408,2256913,2310439,3439239,2466650,2387240,2459802,2361017,2307223,3295034,2377368,2337686,2299377,2326933,2274523,2922712,2178568,2184544,2173800,2223731,2175416,3146223,2266484,2245986,2248995,2311370,2312690,3392953,2494126,2432747,2464580,2405813,2305343,3359581,2374159,2338747,2340315,2341940,2301610,3394935,2470249,2407729,2405750,2408983,2274180,3304524,2294200,2304102],"med_n":[24811,17632,17391,17628,18425,18878,27813,20405,20510,20557,20945,20992,31029,21865,21738,22050,23121,23688,34649,24399,25316,25398,26981,28602,41099,30358,29558,31012,31687,33383,48913,35454,36145,37476,39624,39828,59149,44310,45298,46338,44896,45638,68707,47637,48339,49478,53377,53874,80167,57813,60347,62883,65156,68128,99971,72268,75189,77320,79282,83262,121726,89499,91635,98682,103832,111655,165158,119848,132657,141428,144780,155238,245866,171130,180620,198161,218967,238171,356955,270082,312313,342177,365339,404395,647022,547920,618024,681345,786197,826588,1258840,934748,969111,1000000,1063669,1077033,1640493,1160615,1159755,1202430,1231191,1252643,1871281,1317519,1344441,1355602,1391747,1393622,2145000,1502578,1509664,1535694,1600580,1607004,2405168,1696887,1736710],"prom_n":[31182,23150,22287,23420,23056,23275,34216,24881,24912,25118,25837,26076,38564,28795,27725,29175,29146,29453,42512,30592,31293,32035,33587,35226,51732,39455,38366,41439,41134,42462,61343,45091,46150,47495,51085,51308,76103,59175,59860,61897,57845,57343,85458,60868,61913,64162,68109,69308,103375,78853,79789,85612,86145,86697,127133,94461,96664,99916,104456,108279,160794,122701,123341,136935,138254,144485,211727,157053,167586,179439,189112,203119,317848,241706,249423,276740,287935,303250,458848,352070,389265,431695,473146,521739,841142,756220,858707,948559,1056040,1076244,1627775,1219882,1259287,1304721,1377017,1411222,2126400,1597652,1595767,1676933,1682470,1636413,2423360,1745114,1751317,1788882,1832054,1845030,2798897,2095228,2101350,2170658,2229694,2150179,3183291,2256751,2304102],"med_ia":[null,null,null,null,null,null,null,null,null,null,null,null,0.2,-0.8,-0.4,-0.3,-0.0,-0.7,-3.8,-8.9,-8.2,-12.1,-11.7,-8.2,-10.3,-7.0,-10.1,-9.1,-12.0,-10.4,-9.4,-5.9,-7.6,-3.9,-2.4,-8.5,-6.4,-4.5,2.0,0.7,-2.6,-4.7,-1.6,-5.6,-4.9,-3.4,-1.8,-0.4,-0.5,-5.8,-5.3,-4.9,-0.8,0.3,-3.1,-0.0,2.7,2.5,-2.3,2.2,0.6,2.7,-0.3,1.2,0.9,2.0,0.7,-3.0,-1.2,-0.1,-2.9,-3.1,3.7,-3.8,-2.7,-1.7,1.0,-0.4,0.3,5.6,4.9,1.5,4.0,-0.2,-15.5,-9.6,-9.1,-11.4,-7.8,-7.8,-5.1,-4.8,-7.8,-5.4,-0.6,0.1,16.4,14.8,12.5,13.2,6.3,5.6,6.6,3.2,3.9,2.9,-0.4,-1.5,-0.6,-2.2,-2.2,-3.7,-1.8,-3.7,-3.8,-3.8,-3.3],"prom_ia":[null,null,null,null,null,null,null,null,null,null,null,null,-0.9,-0.5,-0.8,-0.7,0.7,0.2,-4.1,-6.3,-6.5,-9.2,-10.8,-9.0,-9.2,-8.2,-8.5,-8.2,-9.4,-8.4,-7.3,-4.5,-4.5,-3.5,1.0,-4.2,-4.3,-1.9,3.8,0.7,-3.4,-5.8,-2.4,-5.2,-4.6,-1.1,-2.9,-0.5,-0.2,-3.8,-5.2,-3.0,1.8,1.6,-0.9,2.3,3.1,2.1,0.8,3.3,3.0,3.3,1.5,3.1,1.6,3.7,1.6,-2.8,-2.9,-1.9,-3.7,-2.5,1.5,-0.9,-0.1,-1.1,-0.3,-2.0,0.5,5.0,3.5,1.0,3.1,-1.6,-15.0,-11.7,-8.5,-11.6,-5.8,-5.7,-4.5,-4.7,-3.9,-2.2,-0.7,1.7,16.1,14.5,11.4,13.4,8.2,6.0,6.8,4.8,4.1,4.1,1.3,-0.5,0.1,-1.0,-1.0,-2.4,0.1,-1.4,-1.6,-3.4,-1.5],"ratio":[1.257,1.313,1.282,1.329,1.251,1.233,1.23,1.219,1.215,1.222,1.234,1.242,1.243,1.317,1.275,1.323,1.261,1.243,1.227,1.254,1.236,1.261,1.245,1.232,1.259,1.3,1.298,1.336,1.298,1.272,1.254,1.272,1.277,1.267,1.289,1.288,1.287,1.335,1.321,1.336,1.288,1.256,1.244,1.278,1.281,1.297,1.276,1.286,1.29,1.364,1.322,1.361,1.322,1.273,1.272,1.307,1.286,1.292,1.318,1.3,1.321,1.371,1.346,1.388,1.332,1.294,1.282,1.31,1.263,1.269,1.306,1.308,1.293,1.412,1.381,1.397,1.315,1.273,1.285,1.304,1.246,1.262,1.295,1.29,1.3,1.38,1.389,1.392,1.343,1.302,1.293,1.305,1.299,1.305,1.295,1.31,1.296,1.377,1.376,1.395,1.367,1.306,1.295,1.325,1.303,1.32,1.316,1.324,1.305,1.394,1.392,1.413,1.393,1.338,1.324,1.33,1.327],"smvm":[928126,973927,954205,932620,907807,895484,885072,955821,942569,924936,910992,898946,871574,918343,896461,876255,852556,835456,805453,822291,791541,795168,754519,731413,752728,731687,704918,744951,720131,698816,680532,665770,723747,756110,790427,758313,731020,714876,700612,677916,668078,657895,643388,631234,614568,597724,645070,625422,654959,629511,607715,608348,637084,639326,641562,670800,675416,722531,718073,700406,674434,649351,639619,599223,666841,634788,705026,656358,644764,649821,651015,658600,670355,667693,648372,617751,658792,642995,631843,712393,675605,628514,649176,636488,542053,449415,457919,464754,465475,473622,452893,472351,468059,462059,455842,445047,446327,447590,445834,436252,432697,434186,434476,432355,430006,421258,411617,409667,406097,402035,397364,390567,386570,383934,381807,378580,376600],"smvm_n":[7560,8060,8060,8060,8060,8060,8060,8860,8860,8860,8860,8860,8860,9500,9500,9500,9500,9500,9500,10000,10000,10700,10700,10700,11300,11300,11300,12500,12500,12500,12500,12500,14125,15625,16875,16875,16875,16875,16875,16875,16875,16875,16875,16875,16875,16875,18900,18900,20587,20587,20587,21600,23544,24408,25272,27216,28080,31104,32000,32000,32000,32000,33000,33000,38940,38940,45540,45540,47850,51200,54550,57900,61953,65427,67743,69500,80342,84512,87987,105500,112500,118000,132000,146000,156000,156000,180000,202800,221052,234315,234315,254231,262432,268056,271571,271571,279718,286711,292446,296832,302600,308200,313400,317800,322000,322000,322000,328400,334800,341000,346800,352400,357800,363000,367800,372400,376600],"cba":[1766.62,1789.15,1821.02,1876.56,1915.47,1937.24,1956.42,1984.64,2021.98,2049.39,2079.23,2125.84,2150.29,2197.26,2261.23,2294.56,2308.11,2418.65,2537.45,2627.37,2701.48,2931.88,3150.62,3276.02,3300.17,3423.03,3597.77,3767.01,3833.28,3911.58,4016.09,4133.91,4290.72,4502.88,4596.2,4886.34,5043.41,5332.94,5432.32,5615.94,5791.79,5785.01,5834.66,5929.29,6081.69,6288.17,6702.33,6981.61,7340.12,7677.09,7953.14,8312.33,8633.31,8874.89,9195.41,9386.04,9454.13,9713.21,10008.2,10266.79,10667.86,11111.27,12108.08,12900.45,13762.77,14400.84,15056.75,16008.28,17148.8,18359.84,20098.92,20715.93,21743.48,23315.04,26046.32,28388.12,30468.76,32055.87,33730.51,36130.15,42262.25,47857.79,51974.93,59886.86,77889.58,92414.67,104482.59,115873.35,120726.29,125235.49,127287.79,131293.57,136399.3,138744.31,140653.57,142148.73,145408.96,146726.23,151491.17,160393.45,162553.77,161903.21,163756.66,166797.7,168456.04,170788.46,176150.29,183289.46,190780.09,201938.62,208442.85,212948.52,215227.62,220467.99,223253.29,229131.47,235103.36],"cbt":[4257.55,4311.85,4425.08,4560.04,4692.9,4746.24,4793.23,4862.37,4933.63,5000.51,5073.32,5187.05,5397.23,5493.15,5675.69,5782.29,5908.76,6095.0,6343.62,6515.88,6753.7,7300.38,7845.04,8157.29,8250.42,8557.58,8922.47,9304.51,9544.87,9818.07,10080.39,10334.77,10683.89,11257.2,11536.46,12166.99,12608.52,13065.7,13200.54,13590.57,13784.46,13941.87,14178.22,14408.17,14717.69,15280.25,16152.62,16755.86,17542.89,18271.47,18769.41,19700.22,20374.61,20855.99,21517.26,21869.47,22122.66,22826.04,23419.19,23921.62,24642.76,25444.81,27122.1,29026.01,30828.6,32257.88,33727.12,36018.63,38756.29,41493.24,45222.57,47232.32,49357.7,52925.14,57301.9,61886.1,65812.52,70522.91,75219.04,80570.23,92131.7,103372.83,111746.1,126361.27,160452.53,193146.66,223592.74,250286.44,268012.36,275518.08,282578.89,291471.73,304170.44,312174.7,319283.6,324099.1,331532.43,334535.8,342370.04,356073.46,359243.83,359425.13,365177.35,371958.87,375656.97,380858.27,392815.15,406902.6,423531.8,440226.19,452320.98,464227.77,475653.04,485029.58,495622.3,506380.55,519578.43]}}</script><script>
+{
+const D=JSON.parse(document.getElementById('data').textContent);
+const MES=['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];
+const lab=d=>MES[+d.slice(5)-1]+'-'+d.slice(2,4);
+const nf=(v,dec=0)=>v==null?'–':v.toLocaleString('es-AR',{minimumFractionDigits:dec,maximumFractionDigits:dec});
+const css=v=>getComputedStyle(document.documentElement).getPropertyValue(v).trim();
+const NS='http://www.w3.org/2000/svg';
+function nice(lo,hi,n){const st=(hi-lo)/n,p=10**Math.floor(Math.log10(st)),m=[1,2,2.5,5,10].find(k=>k*p>=st)*p;const out=[];for(let v=Math.ceil(lo/m)*m;v<=hi+1e-9;v+=m)out.push(+v.toFixed(6));return out}
+function chart(id,o){
+  const box=document.getElementById(id),s=box.querySelector('svg'),tip=box.querySelector('.tip');
+  let st={};const vis=()=>o.series.filter(se=>!se.off);
+  const draw=()=>{
+    const W=s.clientWidth,H=s.clientHeight;if(!W)return;
+    const narrow=W<520,ends=!narrow&&o.ends!==false;
+    const m={l:narrow?44:58,r:ends?(o.endW||150):12,t:12,b:28};
+    const iEnd=o.to?o.to():o.dates.length-1;const idx=o.dates.map((d,i)=>i).filter(i=>i>=o.from()&&i<=iEnd&&o.keep(i));
+    const vals=vis().flatMap(se=>idx.map(i=>se.v[i]).filter(v=>v!=null));
+    let lo=Math.min(...vals,o.ref??Infinity),hi=Math.max(...vals,o.ref??-Infinity);const pad=(hi-lo)*.08;lo-=pad;hi+=pad;
+    let ty=nice(lo,hi,narrow?4:5);if(ty.length<4)ty=nice(lo,hi,narrow?5:8);lo=Math.min(lo,ty[0]);hi=Math.max(hi,ty[ty.length-1]);
+    const i0=o.from(),i1=Math.max(iEnd,i0+1);
+    const X=i=>m.l+(i-i0)/(i1-i0)*(W-m.l-m.r),Y=v=>m.t+(hi-v)/(hi-lo)*(H-m.t-m.b);
+    let g='';
+    ty.forEach(v=>{g+=`<line x1="${m.l}" x2="${W-m.r}" y1="${Y(v)}" y2="${Y(v)}" stroke="${css('--rule')}"/><text x="${m.l-8}" y="${Y(v)+4}" text-anchor="end" font-size="12" fill="${css('--mute')}">${o.fy(v)}</text>`});
+    if(o.shade&&lo<o.shade.at){const t=Math.min(o.shade.at,hi);g+=`<rect x="${m.l}" y="${Y(t)}" width="${W-m.l-m.r}" height="${Y(lo)-Y(t)}" fill="${css('--neg')}" fill-opacity=".1"/><text x="${W-m.r-8}" y="${Y(lo)-8}" text-anchor="end" font-size="12" fill="${css('--neg')}">${o.shade.label}</text>`}
+    if(o.ref!=null)g+=`<line x1="${m.l}" x2="${W-m.r}" y1="${Y(o.ref)}" y2="${Y(o.ref)}" stroke="${css('--ink2')}" stroke-dasharray="3 3"/>`;
+    const span=(i1-i0)/12,stepY=span>6?(narrow?3:2):1;
+    const short=span<=2.5,mstep=span<=1.2?(narrow?3:2):(narrow?6:3);
+    o.dates.forEach((d,i)=>{if(i<i0||i>i1)return;const mo=+d.slice(5),y=+d.slice(0,4);let t;
+      if(short){if((mo-1)%mstep)return;t=mo==1?String(y):lab(d)}else{if(mo!==1||y%stepY)return;t=String(y)}
+      g+=`<line x1="${X(i)}" x2="${X(i)}" y1="${H-m.b}" y2="${H-m.b+4}" stroke="${css('--mute')}"/><text x="${X(i)}" y="${H-8}" text-anchor="middle" font-size="12" fill="${css('--mute')}">${t}</text>`});
+    const endsY=[];
+    vis().forEach(se=>{const pts=idx.filter(i=>se.v[i]!=null).map(i=>[X(i),Y(se.v[i])]);if(!pts.length)return;
+      const dstr='M'+pts.map(p=>p[0].toFixed(1)+','+p[1].toFixed(1)).join('L');
+      g+=`<path ${se.dash?`stroke-dasharray="${se.dash}"`:'class="line" pathLength="1000" style="--len:1000"'} d="${dstr}" fill="none" stroke="${css(se.c)}" stroke-width="${se.w||2}" stroke-linejoin="round" stroke-linecap="round"/>`;
+      const last=pts[pts.length-1];endsY.push({y:last[1],x:last[0],se,v:se.v[idx[idx.length-1]],i:idx[idx.length-1]})});
+    if(ends){endsY.sort((a,b)=>a.y-b.y);for(let k=1;k<endsY.length;k++)if(endsY[k].y-endsY[k-1].y<17)endsY[k].y=endsY[k-1].y+17;
+      endsY.forEach(e=>{g+=`<circle cx="${e.x}" cy="${Y(e.v)}" r="4" fill="${css(e.se.c)}" stroke="${css('--bg')}" stroke-width="2"/><text x="${e.x+10}" y="${e.y+4}" font-size="13" fill="${css('--ink')}"><tspan font-weight="600">${o.fv(e.v)}</tspan> <tspan fill="${css('--ink2')}">${e.se.s||e.se.n}</tspan>${e.se.ia&&e.se.ia[e.i]!=null?`<tspan fill="${css('--ink2')}"> · </tspan><tspan font-weight="600" fill="${css(e.se.ia[e.i]<0?'--neg':'--ink')}">${e.se.ia[e.i]>0?'+':''}${nf(e.se.ia[e.i],1)}% i.a.</tspan>`:''}</text>`})}
+    g+=`<g id="${id}h"></g><rect x="${m.l}" y="${m.t}" width="${W-m.l-m.r}" height="${H-m.t-m.b}" fill="transparent"/>`;
+    s.innerHTML=g;st={X,Y,idx,m,H,W};
+  };
+  const move=ev=>{const r=s.getBoundingClientRect(),x=ev.clientX-r.left;const {X,Y,idx,m,H,W}=st;if(!idx)return;
+    let best=idx[0];idx.forEach(i=>{if(Math.abs(X(i)-x)<Math.abs(X(best)-x))best=i});
+    if(x<m.l-10||x>W-m.r+10){hide();return}
+    const h=s.querySelector('#'+o.idh);let g=`<line x1="${X(best)}" x2="${X(best)}" y1="${m.t}" y2="${H-m.b}" stroke="${css('--ink2')}"/>`;
+    vis().forEach(se=>{const v=se.v[best];if(v!=null)g+=`<circle cx="${X(best)}" cy="${Y(v)}" r="4.5" fill="${css(se.c)}" stroke="${css('--bg')}" stroke-width="2"/>`});
+    h.innerHTML=g;
+    tip.innerHTML=`<b>${lab(o.dates[best])}</b>`+vis().map(se=>`<div><span style="background:${css(se.c)}"></span>${se.n}: ${o.fv(se.v[best])}</div>`).join('')+(o.extra?o.extra(best):'');
+    tip.style.display='block';const tw=tip.offsetWidth;let left=X(best)+14;if(left+tw>W)left=X(best)-tw-14;tip.style.left=Math.max(0,left)+'px';tip.style.top=m.t+'px'};
+  const hide=()=>{tip.style.display='none';const h=s.querySelector('#'+o.idh);if(h)h.innerHTML=''};
+  o.idh=id+'h';s.addEventListener('pointermove',move);s.addEventListener('pointerleave',hide);
+  const ro=new ResizeObserver(draw);ro.observe(s);
+  matchMedia('(prefers-color-scheme: dark)').addEventListener('change',draw);
+  new MutationObserver(draw).observe(document.documentElement,{attributes:true,attributeFilter:['data-theme']});
+  return draw;
+}
+const cls=v=>v<0?' class="neg"':'';
+const sw=se=>se.dash?`background:repeating-linear-gradient(90deg,var(${se.c}) 0 ${se.dash.split(' ')[0]}px,transparent 0 ${(+se.dash.split(' ')[0])+(+se.dash.split(' ')[1])}px)`:`background:var(${se.c})`;
+const legend=(id,ser)=>document.getElementById(id).innerHTML=ser.map(se=>`<span><i style="${sw(se)}"></i>${se.n}</span>`).join('');
+const E=D.emp,R=D.rem;
+/* segmentador reutilizable */
+function slicer(host,dates,min,onChange){
+  const el=document.getElementById(host),N=dates.length-1,span=N-min;
+  const pres=[[12,'12 meses'],[36,'3 años'],[60,'5 años'],[0,'Todo']].filter(p=>p[0]===0||p[0]<span);
+  el.className='slicer';
+  el.innerHTML=`<div class="top"><div class="rng"><span></span> a <span></span></div><div class="seg sm" role="group" aria-label="Períodos rápidos">${pres.map(p=>`<button data-m="${p[0]}">${p[1]}</button>`).join('')}</div></div>
+  <div class="dual"><div class="trk"><div class="fl"></div></div><input type="range" aria-label="Inicio del período"><input type="range" aria-label="Fin del período"></div>`;
+  const [A,B]=el.querySelectorAll('input'),fill=el.querySelector('.fl'),[lA,lB]=el.querySelectorAll('.rng span'),bt=[...el.querySelectorAll('button')];
+  [A,B].forEach(x=>{x.min=min;x.max=N;x.step=1});A.value=Math.max(min,N-35);B.value=N;
+  const upd=src=>{let a=+A.value,b=+B.value;if(b-a<6){if(src===A)a=Math.max(min,b-6);else b=Math.min(N,a+6);A.value=a;B.value=b}
+    const p=v=>(v-min)/span*100;fill.style.left=p(a)+'%';fill.style.width=(p(b)-p(a))+'%';
+    lA.textContent=lab(dates[a]);lB.textContent=lab(dates[b]);A.setAttribute('aria-valuetext',lab(dates[a]));B.setAttribute('aria-valuetext',lab(dates[b]));
+    const cur=b===N?(a===min?0:N-a+1):-1;bt.forEach(x=>x.setAttribute('aria-pressed',+x.dataset.m===cur));onChange(a,b)};
+  A.oninput=()=>upd(A);B.oninput=()=>upd(B);
+  bt.forEach(x=>x.onclick=()=>{const m=+x.dataset.m;B.value=N;A.value=m?Math.max(min,N-m+1):min;upd()});
+  return upd;
+}
+/* ilustración de cabecera */
+{const sv=document.querySelector('.hero svg');
+ const pts=R.d.map((d,i)=>({d,i,v:R.med[i],p:R.prom[i]})).filter(o=>!isSacH(o.i)&&o.d>='2017-08');
+ function isSacH(i){return /-(06|12)$/.test(R.d[i])}
+ const draw=()=>{const W=sv.clientWidth,H=sv.clientHeight;if(!W)return;const narrow=W<420;
+   const m={l:4,r:narrow?70:96,t:28,b:22};const all=pts.flatMap(o=>[o.v,o.p]);
+   const lo=Math.min(...all)*0.9,hi=Math.max(...all)*1.04;
+   const X=k=>m.l+k/(pts.length-1)*(W-m.l-m.r),Y=v=>m.t+(hi-v)/(hi-lo)*(H-m.t-m.b);
+   const path=key=>'M'+pts.map((o,k)=>X(k).toFixed(1)+','+Y(o[key]).toFixed(1)).join('L');
+   let g='';
+   [0.25,0.5,0.75].forEach(f=>{const y=m.t+f*(H-m.t-m.b);g+=`<line x1="${m.l}" x2="${W-m.r}" y1="${y}" y2="${y}" stroke="#2A5A68" stroke-dasharray="2 5"/>`});
+   g+=`<defs><linearGradient id="hg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F66C89" stop-opacity=".28"/><stop offset="1" stop-color="#F66C89" stop-opacity="0"/></linearGradient></defs>`;
+   g+=`<path d="${path('p')}" fill="none" stroke="#C9D3DC" stroke-opacity=".45" stroke-width="1.5"/>`;
+   g+=`<path d="${path('v')}L${X(pts.length-1)},${H-m.b}L${X(0)},${H-m.b}Z" fill="url(#hg)"/>`;
+   g+=`<path d="${path('v')}" fill="none" stroke="#F66C89" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>`;
+   const f=pts[0],l=pts[pts.length-1],ch=(l.v/f.v-1)*100;
+   g+=`<circle cx="${X(0)}" cy="${Y(f.v)}" r="4" fill="#013440" stroke="#F66C89" stroke-width="2"/>`;
+   g+=`<circle cx="${X(pts.length-1)}" cy="${Y(l.v)}" r="6" fill="#F66C89"/>`;
+   g+=`<text x="${X(pts.length-1)+12}" y="${Y(l.v)+2}" font-family="IBM Plex Mono,monospace" font-size="${narrow?20:26}" fill="#F66C89">${(ch>0?'+':'')+nf(ch,0).replace('-','−')}%</text>`;
+   g+=`<text x="${X(pts.length-1)+12}" y="${Y(l.v)+20}" font-family="IBM Plex Mono,monospace" font-size="11" fill="#C9D3DC">desde ${lab(f.d)}</text>`;
+   g+=`<text x="${X(pts.length-1)+12}" y="${Y(l.p)+4}" font-family="IBM Plex Mono,monospace" font-size="11" fill="#9FB0C0">promedio</text>`;
+   g+=`<text x="${m.l}" y="${H-4}" font-family="IBM Plex Mono,monospace" font-size="11" fill="#9FB0C0">${f.d.slice(0,4)}</text><text x="${W-m.r}" y="${H-4}" text-anchor="end" font-family="IBM Plex Mono,monospace" font-size="11" fill="#9FB0C0">${l.d.slice(0,4)}</text>`;
+   sv.innerHTML=g};
+ new ResizeObserver(draw).observe(sv);}
+/* empleo */
+const serE=[{n:'Total registrado',s:'Total',c:'--ink',v:E.total.map(v=>+(v/E.total[E.d.indexOf('2023-11')]*100).toFixed(2)),w:2.75},{n:'Asalariados privados',s:'Privados',c:'--s1',v:E.priv_i},{n:'Asalariados públicos',s:'Públicos',c:'--s2',v:E.pub_i,off:true,dash:'7 4'},{n:'Casas particulares',s:'Casas part.',c:'--s3',v:E.casas_i,off:true,dash:'2 4',w:2.5},{n:'Monotributo',s:'Monotributo',c:'--s4',v:E.mono_i},{n:'Autónomos',s:'Autónomos',c:'--s5',v:E.auto_i,off:true,dash:'10 4'}];
+const keyE=['total','priv','pub','casas','mono','auto'];
+let eA=0,eB=E.d.length-1;
+const drawE=chart('figE',{dates:E.d,series:serE,from:()=>eA,to:()=>eB,keep:()=>true,ref:100,fy:v=>nf(v,Number.isInteger(v)?0:1),fv:v=>nf(v,1),endW:140,
+  extra:i=>`<div style="color:var(--ink2);margin-top:4px">Puestos: ${serE.filter(se=>!se.off).map((se,k)=>`${se.s} ${nf(E[keyE[serE.indexOf(se)]][i],0)} mil`).join(' · ')}</div>`});
+{const box=document.getElementById('legE');
+ const paint=()=>{box.innerHTML=serE.map((se,k)=>`<button class="chip" data-k="${k}" aria-pressed="${!se.off}"><i style="${sw(se)}"></i>${se.n}</button>`).join('')+`<span class="chipsep"></span><button class="chip ghost" data-all="1">Todas</button><button class="chip ghost" data-all="0">Solo total</button>`};
+ paint();
+ box.onclick=ev=>{const b=ev.target.closest('button');if(!b)return;
+   if(b.dataset.all!=null)serE.forEach(se=>se.off=b.dataset.all==='0'&&se!==serE[0]);
+   else{const se=serE[+b.dataset.k];se.off=!se.off}
+   paint();drawE()};}
+slicer('slE',E.d,0,(a,b)=>{eA=a;eB=b;drawE()})();
+/* flujos EIL */
+{const EIL={rama:[['Total',0.0,-0.8],['Industria manufacturera',-0.1,-1.5],['Construcción',0.3,-1.3],['Comercio, restaurantes y hoteles',0.1,0.2],['Transporte, almacenamiento y comunicaciones',0.1,-2.0],['Servicios financieros y a las empresas',-0.2,-1.7],['Servicios comunales, sociales y personales',0.3,0.3]],
+  tam:[['Total',0.0,-0.8],['10 a 49 trabajadores',0.1,-1.2],['50 a 199 trabajadores',0.2,0.0],['200 y más trabajadores',-0.1,-1.2]],
+  agl:[['Total aglomerados',0.0,-0.8],['Gran Buenos Aires',-0.1,-0.9],['Aglomerados del interior',0.4,-0.5],['Gran La Plata',1.7,2.5],['Gran Mendoza',0.4,0.5],['Gran Rosario',0.3,0.1],['Gran Mar del Plata',0.4,0.0],['Gran Córdoba',0.2,-1.4],['Gran Santa Fe',-0.3,-1.4],['Gran Jujuy',0.1,-1.8],['Gran Tucumán',0.1,-1.9],['Gran Bahía Blanca',0.2,-2.5],['Gran Paraná',0.3,-3.6]]};
+ let corte='rama',per=2;const box=document.getElementById('figF'),sub=document.getElementById('subF');
+ const draw=()=>{let rows=EIL[corte].slice();const nfix=corte==='agl'?3:1;const head=rows.splice(0,nfix);rows.sort((a,b)=>b[per]-a[per]);rows=[...head,...rows];
+   const M=Math.max(...rows.map(r=>Math.abs(r[per])),0.5)*1.35;
+   sub.textContent=(per===2?'Septiembre de 2026 contra septiembre de 2025':'Septiembre de 2026 contra agosto de 2026')+(corte==='rama'?', por rama de actividad.':corte==='tam'?', por tamaño de empresa.':', por aglomerado.');
+   box.innerHTML=rows.map((r,k)=>{const v=r[per],w=Math.abs(v)/M*50,l=v<0?50-w:50,c=v<0?'--pk':'--s2';
+     const lbl=(v>0?'+':v<0?'−':'')+nf(Math.abs(v),1)+'%';
+     return `<div class="nm${k<nfix?' tot':''}"${k===nfix-1&&nfix>1?' style="padding-bottom:8px"':''}>${r[0]}</div><div class="tr"><div class="z"></div>${v!==0?`<div class="br" style="left:${l}%;width:${Math.max(w,.4)}%;background:var(${c})"></div>`:''}<div class="vl" style="${v<0?`right:${100-l}%;margin-right:6px`:`left:${l+w}%;margin-left:6px`}">${lbl}</div></div>`}).join('')};
+ const seg=(id,opts,def,set)=>{const el=document.getElementById(id);el.innerHTML=opts.map((o,i)=>`<button data-i="${i}" aria-pressed="${i===def}">${o[0]}</button>`).join('');
+   el.onclick=ev=>{const b=ev.target.closest('button');if(!b)return;[...el.children].forEach(x=>x.setAttribute('aria-pressed',x===b));set(opts[+b.dataset.i][1]);draw()}};
+ seg('fCorte',[['Por rama','rama'],['Por tamaño','tam'],['Por aglomerado','agl']],0,v=>corte=v);
+ seg('fPer',[['Último año',2],['Último mes',1]],0,v=>per=v);
+ draw();}
+/* salarios */
+const yoy=a=>a.map((v,i)=>i<12||v==null||a[i-12]==null?null:+((v/a[i-12]-1)*100).toFixed(1));
+const smvm_ia=yoy(R.smvm);
+const i23r=R.d.indexOf('2023-11');
+let modo='pesos',conSM=false,sac=false,rA=0,rB=R.d.length-1;const isSac=i=>/-(06|12)$/.test(R.d[i]);
+const money=v=>'$'+nf(v/1000,0)+' mil';
+const base=[{n:'Promedio',c:'--s2',v:R.prom,ia:R.prom_ia},{n:'Mediana',c:'--s1',v:R.med,ia:R.med_ia}],sm={n:'Salario mínimo',s:'SMVM',c:'--s4',v:R.smvm,ia:smvm_ia};
+const idxv=a=>a.map(v=>+(v/a[i23r]*100).toFixed(1));
+const serR=[];
+const oR={dates:R.d,series:serR,from:()=>rA,to:()=>rB,keep:i=>sac||!isSac(i),endW:250,
+  extra:i=>`<div style="color:var(--ink2);margin-top:4px">Var. real i.a.: mediana ${nf(R.med_ia[i],1)}% · promedio ${nf(R.prom_ia[i],1)}%${conSM?` · SMVM ${nf(smvm_ia[i],1)}%`:''}</div><div style="color:var(--ink2)">Nominal: mediana $${nf(R.med_n[i])} · promedio $${nf(R.prom_n[i])}${conSM?` · SMVM $${nf(R.smvm_n[i])} (${nf(R.smvm_n[i]/R.med_n[i]*100,0)}% de la mediana)`:''}</div>`};
+const setR=()=>{serR.length=0;(conSM?[...base,sm]:base).forEach(se=>serR.push({...se,v:modo=='pesos'?se.v:idxv(se.v)}));
+  if(modo=='pesos'){oR.fy=v=>'$'+nf(v/1e6,1)+'M';oR.fv=money;oR.ref=null}else{oR.fy=v=>nf(v,0);oR.fv=v=>nf(v,1);oR.ref=100}
+  legend('legR',serR);
+  document.getElementById('subR').textContent=modo=='pesos'?'Remuneración bruta mensual de asalariados registrados del sector privado, en pesos de agosto de 2026 (deflactada por IPC-INDEC). Serie sin junio ni diciembre, los meses con aguinaldo. Al final de cada línea, la variación real contra el mismo mes del año anterior.':'Remuneración bruta real, índice noviembre de 2023 = 100 (deflactada por IPC-INDEC). Serie sin junio ni diciembre, los meses con aguinaldo. Al final de cada línea, la variación real contra el mismo mes del año anterior.'};
+setR();
+const drawR=chart('figR',oR);
+const bP=document.getElementById('rPesos'),bI=document.getElementById('rIdx'),smOn=document.getElementById('smOn');
+bP.onclick=()=>{modo='pesos';bP.setAttribute('aria-pressed','true');bI.setAttribute('aria-pressed','false');setR();drawR()};
+bI.onclick=()=>{modo='idx';bI.setAttribute('aria-pressed','true');bP.setAttribute('aria-pressed','false');setR();drawR()};
+smOn.onclick=()=>{conSM=!conSM;smOn.setAttribute('aria-pressed',conSM);smOn.textContent=conSM?'Quitar salario mínimo':'Agregar salario mínimo';setR();drawR()};
+slicer('slR',R.d,0,(a,b)=>{rA=a;rB=b;drawR()})();
+/* cobertura de canastas */
+{const HOG=[{ae:1,n:'1 adulto',d:'Un adulto equivalente: varón de 30 a 45 años.'},{ae:2.46,n:'3 personas',d:'Hogar de 3 integrantes: mujer de 35 años, su hijo de 18 y su madre de 61 (2,46 adultos equivalentes).'},{ae:3.09,n:'4 personas',d:'Hogar de 4 integrantes: varón de 35 años, mujer de 31, un hijo de 6 y una hija de 8 (3,09 adultos equivalentes).'},{ae:3.25,n:'5 personas',d:'Hogar de 5 integrantes: pareja de 30 años con tres hijos de 5, 3 y 1 año (3,25 adultos equivalentes).'}];
+ let can='cbt',hog=HOG[2],neto=true,sal='med',cA=0,cB=R.d.length-1;const NETO=0.83;
+ const cov=k=>R[k+'_n'].map((v,i)=>R[can][i]==null||isNaN(R[can][i])?null:(v*(neto?NETO:1))/(R[can][i]*hog.ae)*100);
+ const pc=v=>nf(v,0)+'%';
+ const box=document.getElementById('figC'),sv=box.querySelector('svg'),tip=box.querySelector('.tip');let st={};
+ const draw=()=>{const W=sv.clientWidth,H=sv.clientHeight;if(!W)return;const narrow=W<520;
+   const v=cov(sal);const idx=[];for(let i=cA;i<=cB;i++)if(!isSac(i)&&v[i]!=null)idx.push(i);if(!idx.length)return;
+   const m={l:narrow?40:52,r:narrow?10:16,t:22,b:28};
+   const hi=Math.max(115,...idx.map(i=>v[i]))*1.06;
+   let ty=nice(0,hi,narrow?4:5);const top=Math.max(hi,ty[ty.length-1]);
+   const bw=(W-m.l-m.r)/idx.length,Y=x=>m.t+(top-x)/top*(H-m.t-m.b),X=k=>m.l+k*bw;
+   let g='';
+   ty.forEach(t=>{g+=`<line x1="${m.l}" x2="${W-m.r}" y1="${Y(t)}" y2="${Y(t)}" stroke="${css('--rule')}"/><text x="${m.l-8}" y="${Y(t)+4}" text-anchor="end" font-size="12" fill="${css('--mute')}">${t}%</text>`});
+   const span=idx.length/10,step=span>6?(narrow?3:2):1;
+   idx.forEach((i,k)=>{const val=v[i],y=Y(val),w=Math.max(1,bw*(idx.length>60?.7:.62));
+     g+=`<rect class="cb" data-k="${k}" x="${X(k)+(bw-w)/2}" y="${y}" width="${w}" height="${Y(0)-y}" rx="${Math.min(2,w/3)}" fill="${css(val>=100?'--s2':'--pk')}"/>`;
+     const d=R.d[i],mo=+d.slice(5),yy=+d.slice(0,4);
+     if(idx.length<=14){if((k%(narrow?3:2))===0)g+=`<text x="${X(k)+bw/2}" y="${H-8}" text-anchor="middle" font-size="12" fill="${css('--mute')}">${lab(d)}</text>`}
+     else if(mo===1&&yy%step===0)g+=`<line x1="${X(k)+bw/2}" x2="${X(k)+bw/2}" y1="${Y(0)}" y2="${Y(0)+4}" stroke="${css('--mute')}"/><text x="${X(k)+bw/2}" y="${H-8}" text-anchor="middle" font-size="12" fill="${css('--mute')}">${yy}</text>`});
+   g+=`<line x1="${m.l}" x2="${W-m.r}" y1="${Y(0)}" y2="${Y(0)}" stroke="${css('--ink2')}"/>`;
+   g+=`<line x1="${m.l}" x2="${W-m.r}" y1="${Y(100)}" y2="${Y(100)}" stroke="${css('--ink')}" stroke-width="1.5" stroke-dasharray="5 4"/><text x="${m.l+6}" y="${Y(100)-7}" font-size="12" fill="${css('--ink')}" stroke="${css('--bg')}" stroke-width="5" paint-order="stroke" stroke-linejoin="round">100% = la canasta completa</text>`;
+   const L=idx[idx.length-1],kL=idx.length-1;
+   g+=`<text x="${Math.min(X(kL)+bw/2,W-m.r-2)}" y="${Y(v[L])-8}" text-anchor="end" font-size="13" font-weight="600" fill="${css('--ink')}">${pc(v[L])}</text>`;
+   g+=`<g id="cHl"></g><rect x="${m.l}" y="${m.t}" width="${W-m.l-m.r}" height="${H-m.t-m.b}" fill="transparent"/>`;
+   sv.innerHTML=g;st={idx,v,bw,m,X,Y,W,H}};
+ sv.addEventListener('pointermove',ev=>{const {idx,v,bw,m,X,Y,W}=st;if(!idx)return;const r=sv.getBoundingClientRect(),x=ev.clientX-r.left;
+   const k=Math.max(0,Math.min(idx.length-1,Math.floor((x-m.l)/bw))),i=idx[k];
+   sv.querySelector('#cHl').innerHTML=`<rect x="${X(k)}" y="${m.t}" width="${bw}" height="${Y(0)-m.t}" fill="${css('--ink')}" fill-opacity=".06"/>`;
+   const fac=neto?NETO:1;
+   tip.innerHTML=`<b>${lab(R.d[i])}</b><div>Cubre el ${pc(v[i])} de la canasta</div><div style="color:var(--ink2);margin-top:4px">Canasta del hogar: $${nf(R[can][i]*hog.ae)}</div><div style="color:var(--ink2)">Sueldo ${sal==='med'?'mediano':'promedio'} ${neto?'neto estimado':'bruto'}: $${nf(R[sal+'_n'][i]*fac)}</div>`;
+   tip.style.display='block';const tw=tip.offsetWidth;let left=X(k)+bw+10;if(left+tw>W)left=X(k)-tw-10;tip.style.left=Math.max(0,left)+'px';tip.style.top=m.t+'px'});
+ sv.addEventListener('pointerleave',()=>{tip.style.display='none';const h=sv.querySelector('#cHl');if(h)h.innerHTML=''});
+ new ResizeObserver(draw).observe(sv);
+ matchMedia('(prefers-color-scheme: dark)').addEventListener('change',draw);
+ new MutationObserver(draw).observe(document.documentElement,{attributes:true,attributeFilter:['data-theme']});
+ const kC=document.getElementById('kC'),dC=document.getElementById('hogDesc');
+ const upd=()=>{dC.textContent=hog.d;
+   const vm=cov('med'),vp=cov('prom');let L=R.d.length-1;while(isSac(L)||vm[L]==null)L--;
+   const P=R.d.indexOf((+R.d[L].slice(0,4)-1)+R.d[L].slice(4));
+   const cn=can==='cbt'?'canasta básica total':'canasta básica alimentaria',nb=neto?'neto':'bruto';
+   const nc=v=>nf(v/100,2)+'<span class="u"> canastas</span>';
+   kC.innerHTML=[[`Sueldo mediano ${nb}: cuántas ${can==='cbt'?'canastas básicas totales':'canastas básicas alimentarias'} alcanza a comprar`,nc(vm[L]),`en ${lab(R.d[L])}&nbsp;· ${nf(vm[P]/100,2)} un año antes`],
+     [`Sueldo promedio ${nb}: cuántas ${can==='cbt'?'canastas básicas totales':'canastas básicas alimentarias'} alcanza a comprar`,nc(vp[L]),`en ${lab(R.d[L])}&nbsp;· ${nf(vp[P]/100,2)} un año antes`],
+     [`${can==='cbt'?'Canasta básica total':'Canasta básica alimentaria'} del hogar (${hog.n})`,'$'+nf(R[can][L]*hog.ae),`en ${lab(R.d[L])}`]]
+     .map((k,i)=>`<div class="kpi${i==0?' hot':''}"><h3>${k[0]}</h3><div class="v">${k[1]}</div><div class="c">${k[2]}</div></div>`).join('');
+   draw()};
+ const seg=(id,opts,def,set)=>{const el=document.getElementById(id);el.innerHTML=opts.map((o,i)=>`<button data-i="${i}" aria-pressed="${i===def}">${o.n}</button>`).join('');
+   el.onclick=ev=>{const b=ev.target.closest('button');if(!b)return;[...el.children].forEach(x=>x.setAttribute('aria-pressed',x===b));set(opts[+b.dataset.i]);upd()}};
+ seg('cSal',[{n:'Sueldo mediano',v:'med'},{n:'Sueldo promedio',v:'prom'}],0,o=>sal=o.v);
+ seg('cCan',[{n:'Canasta total (pobreza)',v:'cbt'},{n:'Canasta alimentaria (indigencia)',v:'cba'}],0,o=>can=o.v);
+ seg('cHog',HOG,2,o=>hog=o);
+ seg('cNet',[{n:'Neto estimado',v:true},{n:'Bruto',v:false}],0,o=>neto=o.v);
+ slicer('slC',R.d,0,(a,b)=>{cA=a;cB=b;upd()})();}
+/* variación interanual */
+const serV=[{n:'Promedio',c:'--s2',v:R.prom_ia},{n:'Mediana',c:'--s1',v:R.med_ia}];
+legend('legV',serV);
+let vA=12,vB=R.d.length-1;
+const drawV=chart('figV',{dates:R.d,series:serV,from:()=>vA,to:()=>vB,keep:()=>true,ref:0,shade:{at:0,label:'Pérdida real interanual'},fy:v=>(v>0?'+':'')+nf(v,Number.isInteger(v)?0:1)+'%',fv:v=>(v>0?'+':'')+nf(v,1)+'%',endW:130});
+slicer('slV',R.d,12,(a,b)=>{vA=a;vB=b;drawV()})();
+/* brecha */
+const br=R.ratio.map(v=>+((v-1)*100).toFixed(1));
+const mm=br.map((v,i)=>i<11?null:+(br.slice(i-11,i+1).reduce((a,b)=>a+b,0)/12).toFixed(1));
+const yrs=[...new Set(R.d.map(d=>d.slice(0,4)))].filter(y=>y>='2017');
+const ea=yrs.map(y=>{const v=R.d.map((d,k)=>d.slice(0,4)===y&&+d.slice(5)<=8?br[k]:null).filter(v=>v!=null);return {y,v:v.reduce((a,b)=>a+b,0)/v.length,n:v.length}}).filter(r=>r.n===8);
+{const box=document.getElementById('figB'),sb=document.getElementById('subYB');
+ const rows=ea;const mx=Math.max(...rows.map(r=>r.v))*1.12;
+ sb.textContent='2017 a 2026. Se comparan siempre los mismos ocho meses porque 2026 tiene datos hasta agosto y porque la brecha cambia según la época del año.';
+ box.innerHTML=rows.map((r,k)=>`<div class="yc${k===rows.length-1?' last':''}" title="${r.y}: ${nf(r.v,1)}%"><div class="yv">${nf(r.v,1)}<span class="pc">%</span></div><div class="ybar" style="height:${r.v/mx*100}%"></div><div class="yy"><span class="pc">${r.y.slice(0,2)}</span>${r.y.slice(2)}</div></div>`).join('');}
+{const L=R.d.length-1,P=R.d.indexOf((+R.d[L].slice(0,4)-1)+R.d[L].slice(4)),N23=R.d.indexOf('2023-11');
+ const pp=(a,b)=>{const d=a-b;return (d>0?'+':'')+nf(d,1)+' pp'};
+ const e26=ea[ea.length-1],e23=ea.find(r=>r.y==='2023');
+ document.getElementById('kB').innerHTML=[
+  ['Brecha en '+lab(R.d[L]),nf(br[L],1)+'%',pp(br[L],br[N23])+' desde nov‑2023&nbsp;· '+pp(br[L],br[P])+' en un año'],
+  ['Promedio enero-agosto '+e26.y,nf(e26.v,1)+'%',pp(e26.v,e23.v)+' contra ene‑ago 2023&nbsp;· el más alto desde 2017'],
+  ['Brecha en nov-23',nf(br[N23],1)+'%','punto de partida de la comparación'],
+ ].map((k,i)=>`<div class="kpi${i==0?' hot':''}"><h3>${k[0]}</h3><div class="v">${k[1]}</div><div class="c">${k[2]}</div></div>`).join('');
+ const perAll=[['2023-11',R.d[L],'Desde noviembre de 2023'],[R.d[P],R.d[L],'Último año'],['2023-08','2023-11','Agosto a noviembre de 2023'],['2019-08','2023-08','Pandemia y alta inflación'],['2017-08','2019-08','Crisis 2018-2019']];
+ let showOld=false;
+ const vr=(k,a,b)=>(R[k][R.d.indexOf(b)]/R[k][R.d.indexOf(a)]-1)*100;
+ const drawPer=()=>{const per=showOld?perAll:perAll.slice(0,2);
+ const rows=per.map(([a,b,t])=>({a,b,t,m:vr('med',a,b),p:vr('prom',a,b),s:br[R.d.indexOf(a)],e:br[R.d.indexOf(b)]}));
+ const M=Math.max(...rows.flatMap(r=>[Math.abs(r.m),Math.abs(r.p)]))*1.45;
+ const bLo=Math.floor(Math.min(...rows.flatMap(r=>[r.s,r.e]))-2),bHi=Math.ceil(Math.max(...rows.flatMap(r=>[r.s,r.e]))+2);
+ const pct=v=>(v>0?'+':'')+nf(v,1)+'%';
+ const bar=(v,c)=>{const w=Math.abs(v)/M*50,l=v<0?50-w:50;return `<div class="bar ${c}" style="left:${l}%;width:${w}%"></div><div class="lb ${c}" style="${v<0?`right:${100-l}%;margin-right:5px`:`left:${l+w}%;margin-left:5px`}">${pct(v)}</div>`};
+ const X=v=>(v-bLo)/(bHi-bLo)*100;
+ document.getElementById('perB').innerHTML='<div class="hd h0"></div><div class="hd">Variación real del salario</div><div class="hd">Brecha promedio/mediana y su cambio</div>'+rows.map(r=>`<div class="t"><b>${r.t}</b><span>${lab(r.a)} a ${lab(r.b)}</span></div>
+ <div><div class="dv"><div class="z"></div>${bar(r.m,'m')}${bar(r.p,'p')}</div></div>
+ <div class="dbw"><div class="db"><div class="ln" style="left:${X(Math.min(r.s,r.e))}%;width:${Math.abs(X(r.e)-X(r.s))}%"></div><div class="dt s" style="left:${X(r.s)}%"></div><div class="dt e" style="left:${X(r.e)}%"></div>
+ <div class="lb" style="left:${X(r.s)}%;top:0;color:var(--ink2)">${nf(r.s,1)}</div><div class="lb e" style="left:${X(r.e)}%;top:30px">${nf(r.e,1)}%</div></div><div class="dd">${r.e-r.s>0?'+':''}${nf(r.e-r.s,1)} pp</div></div>`).join('');};
+ drawPer();
+ const ob=document.getElementById('perOld');ob.onclick=()=>{showOld=!showOld;ob.setAttribute('aria-pressed',showOld);ob.textContent=showOld?'Ocultar períodos anteriores':'Ver períodos anteriores';drawPer()};
+}
+}
+</script></body></html>
