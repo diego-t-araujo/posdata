@@ -11,8 +11,11 @@ Sitio de Posdata:, informes mensuales de sociología con datos, por Diego Tomás
 - `informes/plantilla.html`: la plantilla de un informe. No se publica en el menú.
 - `informes/01.html`, `02.html`…: un archivo por informe.
 - `informes/img/`: los gráficos de los informes.
+- `informes/fuentes/NN/`: datos, piezas y script (`armar.py`) de cada informe interactivo. Cada carpeta tiene su README con los pasos.
 
 ## Cómo publicar un informe nuevo
+
+Los informes interactivos (desde el N° 01) se arman con `informes/fuentes/NN/armar.py`: copiá la carpeta del informe anterior y seguí su README. Para un informe simple, sin gráficos interactivos:
 
 1. Copiá `informes/plantilla.html` con el número que sigue, por ejemplo `informes/02.html`.
 2. Reemplazá todo lo que está entre corchetes.
