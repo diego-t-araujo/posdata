@@ -10,6 +10,7 @@ Sitio de Posdata:, informes mensuales de sociología con datos, por Diego Tomás
 - `assets/posdata.css`: colores, tipografías y estilos de la marca. Todas las páginas lo usan.
 - `informes/plantilla.html`: la plantilla de un informe. No se publica en el menú.
 - `informes/01.html`, `02.html`…: un archivo por informe.
+- `tecnica/`: piezas didácticas sobre cómo se hace un trabajo con datos (por ejemplo, `modelo-predictivo.html`). Van en el archivo de informes con la etiqueta "Técnica", sin número.
 - `informes/img/`: los gráficos de los informes.
 - `informes/fuentes/NN/`: datos, piezas y script (`armar.py`) de cada informe interactivo. Cada carpeta tiene su README con los pasos.
 

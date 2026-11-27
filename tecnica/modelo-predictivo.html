@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Posdata: ejemplo de modelo predictivo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* VOICE: Posdata: técnica — didáctico, sobrio, el proceso antes que el código.
+   IDEA: un cuaderno de obra: cada paso de un modelo predictivo contado como una decisión, con su porqué.
+   PICTURE: 429 condados; los 29 que cambiaron de partido en rosa: lo que la regla simple no ve y un modelo tendría que encontrar.
+   COLOUR and TYPE: Abismo, Petróleo, Pizarra, Papel; Rosa solo para el dato. Instrument Serif, IBM Plex Sans y Plex Mono.
+   LAYOUT: cabecera sobre Abismo, índice de pasos, diez apartados con "la idea" y "en este trabajo", bloque P.D. al cierre. */
+:root{color-scheme:light dark;--bg:light-dark(#FFFFFF,#013440);--card:light-dark(#F5F3F0,#0A3F4C);--ink:light-dark(#013440,#F5F3F0);--ink2:light-dark(#33444F,#D5DCE1);--mute:light-dark(#5E6266,#A9B2B8);--plane:light-dark(#E7E3DD,#1E4F5D);--rule:light-dark(#E9E6E1,#1E4F5D);--pk:#F66C89;--pkt:light-dark(#C7375A,#F66C89);
+--abismo:#013440;--papel:#F5F3F0;--pet:light-dark(#234D68,#8FB3D1);--piz:light-dark(#566B81,#A9B9C9);--niebla:light-dark(#B9CCDD,#2F6577)}
+:root[data-theme=light]{color-scheme:light}:root[data-theme=dark]{color-scheme:dark}
+*{box-sizing:border-box;min-width:0}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 "IBM Plex Sans",system-ui,sans-serif;overflow-x:clip}
+html{scroll-padding-top:72px;scroll-behavior:smooth}
+.band{padding:clamp(28px,4vw,64px) max(5vw,16px)}.wrap{max-width:1240px;margin:0 auto}
+header.band{background:var(--abismo);color:var(--papel);--ink:var(--papel);--ink2:#D5DCE1;--card:var(--abismo);--plane:#2A5A68;position:relative;overflow:hidden;isolation:isolate}
+header.band>.wrap,footer.ps>.wrap{position:relative;z-index:1}
+header.band::before{content:"";position:absolute;z-index:0;width:min(78vw,820px);aspect-ratio:1;border-radius:50%;border:1px solid #2A5A68;right:-18%;top:-34%;pointer-events:none}
+.logo{font-family:"Instrument Serif",serif;font-size:clamp(34px,4vw,46px);line-height:1;display:flex;align-items:baseline;color:var(--papel)}
+.logo .pk{color:var(--pk)}.colon{display:inline-block;position:relative;width:.2em;height:.44em;margin-left:.06em}
+.colon i{position:absolute;display:block;border-radius:50%;background:var(--pk)}.colon i:first-child{width:.12em;height:.12em;top:0;left:.02em}.colon i:last-child{width:.16em;height:.16em;bottom:0;left:0}
+.slogan{font-family:"Instrument Serif",serif;font-style:italic;font-size:19px;color:#C9D3DC;margin-top:4px}
+.meta{font-family:"IBM Plex Mono",monospace;font-size:12.5px;color:#9FB0C0}
+.brandrow{display:flex;justify-content:space-between;align-items:flex-end;gap:16px;flex-wrap:wrap;padding-bottom:22px;border-bottom:1px solid #2A5A68}
+h1{font-family:"Instrument Serif",serif;font-weight:400;text-wrap:balance;margin:28px 0 14px;max-width:22ch;font-size:clamp(34px,4.4vw,54px);line-height:1.04}
+.lead{font-size:17px;max-width:62ch;color:var(--ink2);margin:0 0 12px}
+.herogrid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.05fr);gap:clamp(20px,4vw,56px);align-items:center}
+.hero{margin:0;display:flex;flex-direction:column}.hero .fig{min-height:300px}
+.hcap{font-size:14px;color:#C9D3DC;margin-top:10px}.hcap b{color:var(--pk);font-weight:600}
+@media(max-width:860px){.herogrid{grid-template-columns:minmax(0,1fr)}.hero .fig{min-height:240px}}
+.kpis{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:2px;background:var(--plane);border:2px solid var(--plane);margin:18px 0 22px}
+header .kpis{margin-top:32px}
+.kpi{background:var(--card);padding:18px 18px 16px}.kpi h3{font-size:14px;font-weight:500;color:var(--ink2);margin:0 0 6px;min-height:2.9em}
+.kpi .v{font-family:"IBM Plex Mono",monospace;font-size:clamp(26px,3vw,34px);font-weight:500;letter-spacing:-.02em;line-height:1.1;white-space:nowrap}
+.kpi .c{font-size:14px;color:var(--ink2);margin-top:6px}.kpi.hot{background:var(--pk);color:#013440}.kpi.hot h3,.kpi.hot .c{color:#013440}
+@media(max-width:760px){.kpis{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:440px){.kpis{grid-template-columns:minmax(0,1fr)}.kpi h3{min-height:0}}
+nav.steps{background:var(--bg);border-bottom:1px solid var(--plane);padding:0 max(5vw,16px);z-index:5}
+@media(min-width:900px){nav.steps{position:sticky;top:0}}
+nav.steps .scroll{display:flex;gap:4px;max-width:1240px;margin:0 auto;overflow-x:auto;scrollbar-width:thin}
+nav.steps a{flex:none;display:flex;align-items:center;gap:8px;min-height:48px;padding:0 12px;color:var(--ink2);text-decoration:none;font-size:14px;border-bottom:2px solid transparent}
+nav.steps a::before{content:"";width:8px;height:8px;border-radius:50%;border:1.5px solid var(--piz)}
+nav.steps a:hover,nav.steps a.on{color:var(--ink);border-bottom-color:var(--ink)}nav.steps a.on::before{background:var(--ink);border-color:var(--ink)}
+a:focus-visible,button:focus-visible{outline:3px solid var(--pk);outline-offset:2px}
+section+section{border-top:1px solid var(--plane)}
+.q{font-family:"Instrument Serif",serif;font-style:italic;font-size:clamp(24px,2.6vw,32px);line-height:1.15;color:var(--ink2);margin:0 0 14px;max-width:34ch;padding-left:16px;border-left:3px solid var(--ink)}
+h2{font-family:"Instrument Serif",serif;font-size:clamp(26px,2.8vw,34px);line-height:1.08;font-weight:400;margin:0 0 18px;max-width:40ch;text-wrap:balance}
+.two{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:2px;background:var(--plane);border:2px solid var(--plane);margin:0 0 22px}
+.two>div{background:var(--card);padding:18px 20px}.two h4{font-family:"Instrument Serif",serif;font-weight:400;font-size:21px;margin:0 0 6px}
+.two p{margin:0 0 10px;font-size:16px;max-width:62ch}.two p:last-child{margin:0}
+.two .idea{background:var(--bg)}
+@media(max-width:760px){.two{grid-template-columns:minmax(0,1fr)}}
+.figt{font-size:15px;font-weight:500;margin:6px 0 10px}.note{font-size:13px;color:var(--mute);margin:10px 0 0;max-width:80ch}
+.legend{display:flex;flex-wrap:wrap;gap:6px 18px;font-size:14px;color:var(--ink2);margin:4px 0 10px}.legend i{display:inline-block;width:12px;height:12px;border-radius:2px;vertical-align:-1px;margin-right:6px}
+.fig{position:relative;min-height:340px}.fig>svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+/* filas de barras */
+.rows{display:grid;gap:10px;max-width:900px}
+.row{display:grid;grid-template-columns:minmax(0,12em) minmax(0,1fr) 5.5em;gap:12px;align-items:center;font-size:15px}
+.row .lab{color:var(--ink2)}.row .val{font-family:"IBM Plex Mono",monospace;text-align:right;white-space:nowrap;font-size:14px}
+.track{position:relative;height:26px;background:var(--rule)}
+.bar{position:absolute;left:0;top:0;bottom:0;background:var(--pet)}
+.bar.pk{background:var(--pk)}.bar.soft{background:var(--niebla)}
+.ci{position:absolute;top:50%;height:2px;background:var(--ink);transform:translateY(-50%)}.ci::before,.ci::after{content:"";position:absolute;top:-5px;width:2px;height:12px;background:var(--ink)}.ci::before{left:0}.ci::after{right:0}
+.ref{position:absolute;top:-6px;bottom:-6px;width:0;border-left:1.5px dashed var(--ink2)}
+@media(max-width:600px){.row{grid-template-columns:minmax(0,1fr) 5em;gap:4px 10px}.row .lab{grid-column:1/-1}}
+.stack{display:flex;height:30px}.stack span{display:flex;align-items:center;padding:0 8px;font-family:"IBM Plex Mono",monospace;font-size:13px;white-space:nowrap;overflow:hidden}
+.stack .d{background:var(--pet);color:var(--papel)}.stack .r{background:var(--niebla);color:var(--abismo)}
+/* embudo */
+.funnel{display:grid;gap:8px;max-width:900px}
+.fun{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,15em);gap:14px;align-items:center}
+.fun .b{height:40px;background:var(--pet);display:flex;align-items:center;padding:0 12px;color:var(--papel);font-family:"IBM Plex Mono",monospace;font-size:15px;white-space:nowrap}
+.fun:last-child .b{background:var(--abismo)}
+:root[data-theme=dark] .fun:last-child .b{background:#F5F3F0;color:#013440}
+@media(prefers-color-scheme:dark){:root:not([data-theme=light]) .fun:last-child .b{background:#F5F3F0;color:#013440}}
+.fun p{margin:0;font-size:14px;color:var(--ink2)}
+@media(max-width:600px){.fun{grid-template-columns:minmax(0,1fr);gap:4px}}
+/* pasos de variables */
+.chain{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:2px;background:var(--plane);border:2px solid var(--plane);max-width:980px}
+.chain>div{background:var(--bg);padding:16px 18px}.chain .n{font-family:"IBM Plex Mono",monospace;font-size:34px;line-height:1}.chain .t{font-weight:500;margin:6px 0 4px}.chain p{margin:0;font-size:14px;color:var(--ink2)}
+@media(max-width:700px){.chain{grid-template-columns:minmax(0,1fr)}}
+/* línea de tiempo */
+.time{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px;max-width:900px}
+.time>div{padding:14px 14px 12px;background:var(--niebla);color:var(--abismo)}.time .y{font-family:"IBM Plex Mono",monospace;font-size:24px}.time .s{font-size:14px}
+.time>div.test{background:var(--abismo);color:var(--papel)}
+:root[data-theme=dark] .time>div.test{background:#F5F3F0;color:#013440}
+@media(prefers-color-scheme:dark){:root:not([data-theme=light]) .time>div.test{background:#F5F3F0;color:#013440}}
+.timecap{display:grid;grid-template-columns:3fr 1fr;gap:6px;max-width:900px;font-size:14px;color:var(--ink2);margin-top:6px}
+.timecap span{border-top:2px solid var(--ink2);padding-top:6px}
+/* tarjetas de modelos */
+.models{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:2px;background:var(--plane);border:2px solid var(--plane);margin-bottom:22px}
+.models>div{background:var(--bg);padding:18px 20px}.models h4{font-family:"Instrument Serif",serif;font-weight:400;font-size:24px;margin:0 0 6px}.models p{margin:0 0 8px;font-size:15px;max-width:58ch}
+.models svg{width:100%;height:110px;display:block;margin:4px 0 10px}
+@media(max-width:700px){.models{grid-template-columns:minmax(0,1fr)}}
+/* waffle */
+.seg{display:inline-flex;flex-wrap:wrap;border:1px solid var(--ink);margin-bottom:14px}.seg button{font:inherit;font-size:14px;background:none;color:var(--ink);border:0;padding:0 14px;min-height:44px;cursor:pointer}
+.seg button[aria-pressed=true]{background:var(--ink);color:var(--bg)}
+.waf{display:grid;grid-template-columns:repeat(39,minmax(0,1fr));gap:3px;max-width:900px}
+@media(max-width:600px){.waf{grid-template-columns:repeat(22,minmax(0,1fr))}}
+.waf i{display:block;aspect-ratio:1/1;background:var(--rule);border-radius:2px;transition:background .3s}
+.waf i.hit{background:var(--pk)}.waf i.miss{background:var(--bg);box-shadow:inset 0 0 0 2px var(--pkt)}.waf i.fa{background:var(--piz)}
+.wl i.hit{background:var(--pk)}.wl i.miss{background:var(--bg);box-shadow:inset 0 0 0 2px var(--pkt)}.wl i.fa{background:var(--piz)}.wl i.no{background:var(--rule)}
+/* odds ratios */
+.ors{display:grid;gap:6px;max-width:980px}
+.or{display:grid;grid-template-columns:minmax(0,15em) minmax(0,1fr) 7.5em;gap:12px;align-items:center;font-size:15px}
+.or .track{background:none;height:30px;border-bottom:1px solid var(--rule)}
+.or .ln{position:absolute;top:50%;height:2px;background:var(--piz);transform:translateY(-50%)}
+.or .dot{position:absolute;top:50%;width:14px;height:14px;border-radius:50%;transform:translate(-50%,-50%);background:var(--bg);border:2px solid var(--piz)}
+.or.sig .ln{background:var(--ink)}.or.sig .dot{background:var(--ink);border-color:var(--ink)}
+.or.main .ln{background:var(--pkt)}.or.main .dot{background:var(--pk);border-color:var(--pk)}
+.or .val{font-family:"IBM Plex Mono",monospace;text-align:right;font-size:14px;white-space:nowrap}
+.axis{display:grid;grid-template-columns:minmax(0,15em) minmax(0,1fr) 7.5em;gap:12px;font-family:"IBM Plex Mono",monospace;font-size:12px;color:var(--mute)}
+.axis div{position:relative;height:18px}.axis span{position:absolute;transform:translateX(-50%)}
+.orl{position:absolute;top:0;bottom:0;border-left:1.5px dashed var(--ink2)}
+@media(max-width:600px){.or,.axis{grid-template-columns:minmax(0,1fr) 6.5em;gap:2px 8px}.or .lab{grid-column:1/-1}.axis>div:first-child{display:none}}
+ul.cuid{margin:0;padding:0;list-style:none;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:2px;background:var(--plane);border:2px solid var(--plane)}
+ul.cuid li{background:var(--bg);padding:16px 18px;font-size:15px}ul.cuid b{display:block;font-family:"Instrument Serif",serif;font-weight:400;font-size:21px;margin-bottom:4px}
+@media(max-width:700px){ul.cuid{grid-template-columns:minmax(0,1fr)}}
+details.an{margin-top:22px;border-top:2px solid var(--ink);max-width:760px}
+details.an summary{list-style:none;cursor:pointer;font-family:"Instrument Serif",serif;font-size:21px;display:flex;align-items:center;gap:10px;min-height:48px}
+details.an summary::-webkit-details-marker{display:none}
+details.an summary::before{content:"";width:9px;height:9px;border-right:2px solid var(--ink);border-bottom:2px solid var(--ink);transform:rotate(-45deg);transition:transform .2s;margin:0 4px}
+details.an[open] summary::before{transform:rotate(45deg)}
+.ant{padding:4px 0 8px;font-size:17px;line-height:1.6}.ant p{margin:0 0 14px;max-width:68ch}
+code{font-family:"IBM Plex Mono",monospace;font-size:.88em;background:var(--card);padding:1px 5px;overflow-wrap:anywhere}
+.ps{background:var(--abismo);color:var(--papel);position:relative;overflow:hidden;isolation:isolate}
+footer.ps::before{content:"";position:absolute;z-index:0;width:min(70vw,620px);aspect-ratio:1;border-radius:50%;border:1px solid #2A5A68;left:-26%;bottom:-70%;pointer-events:none}
+.ps .pd{display:grid;grid-template-columns:auto minmax(0,1fr);gap:clamp(18px,3vw,40px);align-items:center}
+.ps .pdl{font-family:"Instrument Serif",serif;font-size:clamp(28px,3vw,38px);color:#C9D3DC}.ps .fig2{font-family:"IBM Plex Mono",monospace;font-size:clamp(56px,7vw,96px);color:var(--pk);line-height:1;letter-spacing:-.03em;white-space:nowrap}
+.ps .pdh{font-family:"Instrument Serif",serif;font-size:clamp(30px,3.6vw,46px);line-height:1.05;margin:0 0 14px;max-width:24ch}
+.ps .pdt{font-size:17px;line-height:1.55;color:#D5DCE1;max-width:62ch;margin:0}.ps small{display:block;margin-top:26px;font-size:13px;color:#9FB0C0;font-family:"IBM Plex Mono",monospace}
+@media(max-width:600px){.ps .pd{grid-template-columns:minmax(0,1fr)}}
+@media(prefers-reduced-motion:no-preference){.hero circle.pkd{animation:pop .9s ease-out both}@keyframes pop{from{opacity:0;r:0}}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.waf i{transition:none}}
+</style></head><body>
+
+<header class="band"><div class="wrap">
+<div class="brandrow"><div><a class="logo" href="../index.html" aria-label="Posdata: volver al inicio" style="text-decoration:none"><span class="pk">P</span>os<span class="pk">d</span>ata<span class="colon" aria-hidden="true"><i></i><i></i></span></a><div class="slogan">Ah, y una cosa más: ¿cómo se arma un modelo predictivo?</div></div><div class="meta"><a href="../index.html#informes" style="color:inherit">← Todos los informes</a> · Posdata: técnica · Ejemplo de modelo predictivo · Censo y elecciones de EE.&nbsp;UU., 2008‑2020</div></div>
+<div class="herogrid"><div>
+<h1>Un modelo predictivo, paso a paso: primero hay que ganarle a la regla más simple</h1>
+<p class="lead">Este es un ejemplo de cómo se trabaja un proyecto predictivo. La pregunta: ¿se puede anticipar qué partido gana en cada condado de Estados Unidos con datos del censo? Lo que importa acá no es tanto la respuesta como el camino. Qué datos sirven y cuáles no. Contra qué se compara. Cómo se evalúa sin hacerse trampa.</p>
+<p class="lead">Spoiler: en 2020, repetir el ganador de 2016 acertó más que cualquier modelo. Pero el modelo encontró otra utilidad.</p></div>
+<figure class="hero"><div class="fig" id="hero"><svg role="img" aria-label="429 condados de la prueba; 29 cambiaron de partido"></svg></div>
+<figcaption class="hcap">Cada punto es uno de los 429 condados de la prueba de 2020. Repetir el resultado de 2016 acierta en 400. Los <b>29 en rosa</b> cambiaron de partido: son los que un modelo tendría que encontrar.</figcaption></figure></div>
+<div class="kpis">
+<div class="kpi"><h3>Observaciones condado‑año<br>después de limpiar</h3><div class="v">1.662</div><div class="c">de 7.526 filas originales</div></div>
+<div class="kpi"><h3>Variables del censo<br>que usa el modelo</h3><div class="v">25</div><div class="c">de 35 candidatas</div></div>
+<div class="kpi hot"><h3>Aciertos de la regla<br>"igual que 2016"</h3><div class="v">93,2%</div><div class="c">la vara que el modelo no superó</div></div>
+<div class="kpi"><h3>Aciertos del mejor modelo<br>(random forest)</h3><div class="v">89,5%</div><div class="c">logística: 82,3%</div></div>
+<div class="kpi"><h3>Condados que cambiaron<br>de partido en 2020</h3><div class="v">29</div><div class="c">6,8% de los 429</div></div>
+<div class="kpi"><h3>Cambios que el modelo<br>marcó como alerta</h3><div class="v">22 de 29</div><div class="c">con 60 alertas en total</div></div>
+</div></div></header>
+
+<nav class="steps" aria-label="Pasos del trabajo"><div class="scroll">
+<a href="#pregunta">La pregunta</a><a href="#limpieza">Limpiar</a><a href="#objetivo">Qué predecir</a><a href="#variables">Variables</a><a href="#tiempo">Pasado y futuro</a><a href="#vara">La vara</a><a href="#modelos">Modelos</a><a href="#prueba">La prueba</a><a href="#alertas">Alertas</a><a href="#pesa">Qué pesa</a><a href="#cuidados">Cuidados</a>
+</div></nav>
+
+<section class="band" id="pregunta"><div class="wrap">
+<p class="q">¿Qué queremos predecir, y con qué?</p>
+<h2>Todo empieza por saber qué es cada fila: acá, un condado en un año</h2>
+<div class="two"><div class="idea"><h4>La idea</h4><p>Un modelo predictivo aprende de casos del pasado para anticipar casos nuevos. Para eso hay que definir tres cosas antes de tocar un algoritmo: la <b>unidad</b> (qué es un caso), el <b>objetivo</b> (qué se quiere anticipar) y las <b>predictoras</b> (qué se sabe antes de que pase).</p><p>Si alguna de las tres está mal definida, el resto del trabajo hereda el error.</p></div>
+<div><h4>En este trabajo</h4><p>La base es pública (Kaggle) y cruza el censo de EE.&nbsp;UU. con los resultados presidenciales. Cada fila es un condado en un año. Hay datos del censo para todos los años de 2000 a 2020, pero elecciones solo en 2008, 2012, 2016 y 2020.</p><p>El objetivo es quién gana el condado: republicano o demócrata. Las predictoras, 35 variables del censo: ingreso, edad, estado civil, educación, empleo, ciudadanía, idioma, raza.</p></div></div>
+<div class="kpis">
+<div class="kpi hot"><h3>Filas en la base<br>original</h3><div class="v">7.526</div><div class="c">con 45 columnas</div></div>
+<div class="kpi"><h3>Elecciones<br>con resultado</h3><div class="v">4</div><div class="c">2008, 2012, 2016 y 2020</div></div>
+<div class="kpi"><h3>Variables del censo<br>candidatas</h3><div class="v">35</div><div class="c">promedios y porcentajes por condado</div></div></div>
+</div></section>
+
+<section class="band" id="limpieza"><div class="wrap">
+<p class="q">¿Todas las filas sirven?</p>
+<h2>De 7.526 filas, solo 1.662 responden a la pregunta. Y casi nada de eso es información perdida</h2>
+<div class="two"><div class="idea"><h4>La idea</h4><p>Antes de modelar se explora (EDA). No para "limpiar" a ciegas, sino para entender por qué falta lo que falta. Un dato faltante puede ser una pérdida, o puede no existir: no hay resultado electoral en un año sin elección.</p><p>Esa diferencia decide qué se hace. A un dato que no puede existir no se lo imputa.</p></div>
+<div><h4>En este trabajo</h4><p>El 77,8% de las filas no tenía resultado. Casi todo eran años sin elección. El resto eran filas de <b>estados</b> mezcladas con las de condados.</p><p>Aparecieron dos intrusos: una fila con el código de Nueva York como estado pero el voto de Kansas City, y un distrito electoral de Alaska que no es un condado. Se sacaron. Nada se imputó.</p></div></div>
+<p class="figt">Cómo se llega a la base de trabajo</p>
+<div class="funnel" id="funnel"></div>
+<p class="note">La base final cubre 474 condados distintos de los más de 3.000 del país, concentrados en zonas densamente pobladas. Faltan cinco estados.</p>
+<details class="an"><summary>Leer más</summary><div class="ant">
+<p>Un heatmap de nulos por año lo mostró rápido: en los años sin elección, todas las columnas electorales estaban vacías. En los años con elección quedaban 47 filas vacías por año. No eran condados: eran estados, que se reconocen porque su código termina en 000.</p>
+<p>¿Qué tipo de faltante es? Los de los años sin elección son <b>estructurales</b>: no tiene sentido preguntarse si son aleatorios. Los otros dependen del tipo de fila, que se observa, y no de quién ganó. No se puede probar que no dependan del resultado. Queda como supuesto, y se dice.</p>
+<p>La lección más útil está en la cobertura. Son 474 condados, sobre todo de la costa oeste, el noreste, Florida y Texas. El interior rural casi no aparece. Todo lo que el modelo aprenda vale para ese tipo de condado. Predecir uno rural sería extrapolar.</p>
+<p>Un detalle práctico: en Virginia, seis ciudades cambian de nombre entre años, pero no de código. Por eso los condados se siguen por su código FIPS y nunca por su nombre.</p>
+</div></details>
+</div></section>
+
+<section class="band" id="objetivo"><div class="wrap">
+<p class="q">¿Qué tan repartido está lo que queremos predecir?</p>
+<h2>Republicanos y demócratas están casi parejos, pero la proporción se mueve de una elección a otra</h2>
+<div class="two"><div class="idea"><h4>La idea</h4><p>Hay que mirar el objetivo antes que nada. Si una clase es rarísima, acertar "siempre la otra" da un número alto y engañoso. Si las clases están balanceadas, el porcentaje de aciertos (<i>accuracy</i>) es una métrica razonable.</p><p>También importa si el objetivo cambia con el tiempo por cosas que las predictoras no ven.</p></div>
+<div><h4>En este trabajo</h4><p>Cerca de la mitad de los condados son republicanos: 49,1% entre 2008 y 2016, 48,7% en 2020. Está balanceado.</p><p>Pero la proporción va de 41,6% en 2008 a 55,0% en 2016. Ese clima de cada elección no está en el censo. Es una primera señal de lo difícil que va a ser.</p></div></div>
+<p class="figt">Condados por partido ganador, en %</p>
+<div class="legend"><span><i style="background:var(--pet)"></i>Demócrata</span><span><i style="background:var(--niebla)"></i>Republicano</span></div>
+<div class="rows" id="rep"></div>
+<div class="kpis">
+<div class="kpi hot"><h3>Aciertos de "siempre demócrata"<br>en 2020</h3><div class="v">51,3%</div><div class="c">el piso: cualquier modelo tiene que superarlo</div></div>
+<div class="kpi"><h3>% republicano<br>2008‑2016</h3><div class="v">49,1%</div><div class="c">en la base de entrenamiento</div></div>
+<div class="kpi"><h3>% republicano<br>2020</h3><div class="v">48,7%</div><div class="c">209 de 429 condados</div></div></div>
+</div></section>
+
+<section class="band" id="variables"><div class="wrap">
+<p class="q">¿Qué información le damos al modelo?</p>
+<h2>De 35 variables quedaron 25: se sacó lo que repetía información o dependía del resultado</h2>
+<div class="two"><div class="idea"><h4>La idea</h4><p>Más variables no es mejor. Tres reglas ordenan la elección. No usar nada que no se sepa <b>antes</b> de lo que se quiere predecir (si no, el modelo "hace trampa": se llama filtración). No repetir información. Y fijar las reglas de descarte antes de ver resultados.</p></div>
+<div><h4>En este trabajo</h4><p>Los votos de cada partido quedaron afuera: son el resultado mismo. También el año y los identificadores.</p><p>Muchas variables son porcentajes que suman 100 (varones y mujeres, por ejemplo). Si se sabe una, se sabe la otra. Por eso se deja una categoría de referencia por grupo. Y de dos pares casi idénticos se quedó una variable de cada uno.</p></div></div>
+<div class="chain">
+<div><div class="n">35</div><div class="t">Variables del censo</div><p>Ingreso individual y familiar, hipoteca, edad y porcentajes por sexo, estado civil, raza, ciudadanía, idioma, educación, empleo y cupones de comida.</p></div>
+<div><div class="n">27</div><div class="t">Sin categorías de referencia</div><p>Sale la categoría más frecuente de cada grupo: mujeres, inglés, ciudadanos, empleados, casados, blancos, universitarios, sin cupones.</p></div>
+<div><div class="n">25</div><div class="t">Sin redundancias</div><p>Sale el ingreso familiar (casi igual al individual, r = 0,94) y una categoría de ciudadanía que se movía con el idioma (r = 0,92).</p></div></div>
+<details class="an"><summary>Leer más</summary><div class="ant">
+<p>Antes de elegir, se miró cómo se asociaba cada variable con el resultado (correlación de Spearman). Las asociaciones son <b>moderadas</b>. La más fuerte es la proporción de personas nunca casadas, −0,52: más nunca casados, más demócrata. El ingreso apenas se asocia, alrededor de −0,2.</p>
+<p>Pero esa tabla no se usó para elegir variables. Son 35 pruebas a la vez, muchas variables se mueven juntas (con lo urbano y lo rural, por ejemplo) y cada correlación mezcla efectos. Elegir ahí es elegir con ruido. Eso lo hace el modelo, con todas a la vez.</p>
+<p>Después de sacar redundancias queda algo de colinealidad: el ingreso y la proporción de naturalizados se explican bastante por las demás (VIF de 13,5 y 13,1). No impide predecir, pero obliga a leer con cuidado el peso de cada una.</p>
+<p>Los valores extremos no se borraron. Eran condados reales: San Juan (Nuevo México) con 42,9% de población indígena, Webb (Texas) con 93,1% que habla otro idioma en casa.</p>
+</div></details>
+</div></section>
+
+<section class="band" id="tiempo"><div class="wrap">
+<p class="q">¿Cómo sabemos si predice, y no solo si recuerda?</p>
+<h2>Se aprende con el pasado y se prueba con el futuro, una sola vez</h2>
+<div class="two"><div class="idea"><h4>La idea</h4><p>Un modelo siempre acierta mejor en los datos que ya vio. Para saber si predice hay que guardar datos que nunca toque mientras se ajusta: el conjunto de <b>prueba</b>.</p><p>Si el objetivo es anticipar el futuro, la separación tiene que ser en el tiempo, no al azar. Y la prueba se usa una vez: si se mira y se corrige, deja de ser prueba.</p></div>
+<div><h4>En este trabajo</h4><p>Entrenamiento: 2008, 2012 y 2016 (1.233 filas). Prueba: 2020 (429 filas).</p><p>Para comparar modelos dentro del entrenamiento se usó validación cruzada <b>agrupada por condado</b>: un mismo condado aparece en varios años, y si quedara de los dos lados el modelo estaría reconociéndolo en vez de predecirlo.</p></div></div>
+<div class="time"><div><div class="y">2008</div><div class="s">375 condados</div></div><div><div class="y">2012</div><div class="s">429 condados</div></div><div><div class="y">2016</div><div class="s">429 condados</div></div><div class="test"><div class="y">2020</div><div class="s">429 condados</div></div></div>
+<div class="timecap"><span>Entrenamiento: se ajustan, comparan y eligen los modelos</span><span>Prueba: se usa al final</span></div>
+<p class="note">Los 429 condados de 2020 también están en el entrenamiento con otros años. Lo que se mide es cuánto se predice un condado conocido en una elección nueva, no un condado nuevo.</p>
+</div></section>
+
+<section class="band" id="vara"><div class="wrap">
+<p class="q">¿Contra qué se compara un modelo?</p>
+<h2>Antes de modelar se fija la vara: una regla sin estadística que ya acierta 9 de cada 10</h2>
+<div class="two"><div class="idea"><h4>La idea</h4><p>Una <b>línea de base</b> es la predicción más simple que se le ocurriría a cualquiera. Si el modelo no le gana, no se justifica: es más caro, más opaco y no mejora nada.</p><p>Elegir una línea de base exigente es una forma de honestidad. Ganarle a "tirar una moneda" no dice mucho.</p></div>
+<div><h4>En este trabajo</h4><p>Se fijaron dos. La débil: predecir siempre la clase más frecuente. La exigente: <b>cada condado vota igual que en la elección anterior</b>.</p><p>Probada dentro del entrenamiento, en 2016, la regla exigente acertó 90,0%. Pocos condados cambian de partido. Ganarle va a ser difícil.</p></div></div>
+<div class="kpis">
+<div class="kpi hot"><h3>"Igual que la elección anterior"<br>en 2016</h3><div class="v">90,0%</div><div class="c">de aciertos, sin ningún modelo</div></div>
+<div class="kpi"><h3>"Siempre la clase más frecuente"<br>en 2016</h3><div class="v">45,0%</div><div class="c">peor que una moneda ese año</div></div>
+<div class="kpi"><h3>Criterio fijado<br>de antemano</h3><div class="v" style="font-size:22px;white-space:normal">Superar a la regla</div><div class="c">y que la diferencia se sostenga en un test</div></div></div>
+</div></section>
+
+<section class="band" id="modelos"><div class="wrap">
+<p class="q">¿Qué modelos probamos, y por qué esos?</p>
+<h2>Dos modelos con lógicas distintas: uno que se puede leer y otro que capta combinaciones</h2>
+<div class="models">
+<div><h4>Regresión logística</h4><svg viewBox="0 0 300 110" preserveAspectRatio="xMidYMid meet" aria-hidden="true" id="svgLog"></svg><p>Suma el aporte de cada variable y lo convierte en una probabilidad entre 0 y 1. Es simple y se puede interpretar: dice hacia dónde empuja cada variable.</p><p>Se usó con <b>regularización</b>: una penalización que achica los coeficientes para que el modelo no se aferre a los datos de entrenamiento.</p></div>
+<div><h4>Random forest</h4><svg viewBox="0 0 300 110" preserveAspectRatio="xMidYMid meet" aria-hidden="true" id="svgRf"></svg><p>Son 500 árboles de decisión, cada uno con preguntas del tipo "¿más de 30% nunca casados?". Cada árbol vota, y se promedia.</p><p>Capta relaciones no lineales y combinaciones entre variables que la logística no ve. A cambio, es más difícil de leer.</p></div></div>
+<div class="two"><div class="idea"><h4>La idea</h4><p>Los modelos tienen perillas (cuánto penalizar, qué tan profundos los árboles). Se eligen probando combinaciones con validación cruzada, nunca con la prueba.</p><p>La medida para comparar fue el <b>log‑loss</b>: castiga más a un modelo que se equivoca muy seguro que a uno que duda. Mide la calidad de las probabilidades, no solo los aciertos.</p></div>
+<div><p class="figt" style="margin-top:0">Log‑loss en validación cruzada (más bajo es mejor)</p><div class="rows" id="ll"></div><p class="note">Un modelo sin información, que siempre dice 50%, tiene log‑loss 0,693. Los dos quedaron parejos, así que pasaron los dos a la prueba.</p></div></div>
+</div></section>
+
+<section class="band" id="prueba"><div class="wrap">
+<p class="q">¿Le ganó el modelo a la regla en 2020?</p>
+<h2>No. Repetir el resultado de 2016 acertó 93,2% de los condados; el mejor modelo, 89,5%</h2>
+<div class="two"><div class="idea"><h4>La idea</h4><p>Un porcentaje solo no alcanza: con 429 condados hay azar. Por eso cada resultado va con un <b>intervalo</b> (el rango razonable si se repitiera la muestra).</p><p>Y para comparar dos predicciones sobre los mismos casos se usa un test que mira solo donde difieren (McNemar): ¿cuántas veces acierta uno y falla el otro?</p></div>
+<div><h4>En este trabajo</h4><p>Los dos modelos superaron con claridad al piso de 51%. Ninguno alcanzó a la regla.</p><p>La logística perdió claro: la regla acertó sola en 69 condados y el modelo solo en 22. El random forest quedó más cerca, 38 contra 22, y la diferencia no llega a ser significativa al 5%. Pero el criterio era <b>superar</b> a la regla, y no lo hizo.</p></div></div>
+<p class="figt">Aciertos en 2020, con intervalo del 95%</p>
+<div class="rows" id="acc"></div>
+<p class="note">Intervalos por bootstrap (1.000 remuestreos de los condados). Punto de corte fijo en 0,5. La línea punteada marca el 50%.</p>
+<details class="an"><summary>Leer más</summary><div class="ant">
+<p>Además del porcentaje de aciertos se miraron otras dos medidas. El <b>AUC</b> dice qué tan bien ordena el modelo a los condados de menos a más republicano: el random forest llegó a 0,951, muy alto. El <b>Brier</b> mide qué tan buenas son las probabilidades: 0,108 el random forest y 0,119 la logística.</p>
+<p>¿Por qué no compararlas con la regla? Porque la regla solo dice 0 o 1, no da probabilidades. Su AUC y su Brier no se pueden leer igual. Por eso el criterio se apoyó en los aciertos y en McNemar, y eso se decidió antes de mirar.</p>
+<p>La lectura de fondo: el censo describe cómo es un condado, y eso cambia poco de una elección a otra. El voto anterior ya resume casi todo eso, y algo más. Un modelo solo con variables sociodemográficas compite con desventaja.</p>
+</div></details>
+</div></section>
+
+<section class="band" id="alertas"><div class="wrap">
+<p class="q">Entonces, ¿el modelo no sirve?</p>
+<h2>Sirve para otra cosa: avisar qué condados pueden cambiar de partido</h2>
+<div class="two"><div class="idea"><h4>La idea</h4><p>Cuando un modelo no le gana a la regla, a veces sus <b>desacuerdos</b> con la regla son útiles. La regla nunca anticipa un cambio, por definición. El modelo sí puede.</p><p>Una alerta es un caso donde el modelo contradice a la regla. Lo que importa es cuántas alertas aciertan.</p></div>
+<div><h4>En este trabajo</h4><p>En 2020 cambiaron 29 condados, casi todos de republicano a demócrata. El random forest dio 60 alertas: 22 eran cambios reales y 38, falsas alarmas.</p><p>Una de cada tres alertas acertó (36,7%). Elegir condados al azar habría acertado uno de cada quince (6,8%). Es cinco veces mejor.</p></div></div>
+<div class="seg" role="group" aria-label="Modelo"><button data-m="rf" aria-pressed="true">Random forest</button><button data-m="lr" aria-pressed="false">Regresión logística</button></div>
+<div class="legend wl" id="wl"></div>
+<div class="waf" id="waf" role="img" aria-label="429 condados según alerta y cambio de partido"></div>
+<div class="kpis">
+<div class="kpi hot"><h3>Alertas que fueron<br>cambios reales</h3><div class="v" id="kPrec">36,7%</div><div class="c">contra 6,8% si se eligiera al azar</div></div>
+<div class="kpi"><h3>Cambios de partido<br>que detectó</h3><div class="v" id="kDet">22 de 29</div><div class="c">la regla no detecta ninguno</div></div>
+<div class="kpi"><h3>Falsas alarmas</h3><div class="v" id="kFa">38</div><div class="c" id="kFac">de 60 alertas</div></div></div>
+<p class="note">Es una descripción de lo que pasó en 2020, con una sola elección de prueba y 29 cambios. No es un criterio fijado de antemano: hay que confirmarlo en otras elecciones.</p>
+</div></section>
+
+<section class="band" id="pesa"><div class="wrap">
+<p class="q">¿Qué características pesan más?</p>
+<h2>El estado civil y el empleo se sostienen; el ingreso, no</h2>
+<div class="two"><div class="idea"><h4>La idea</h4><p>Para interpretar se usa un modelo aparte, una logística sin penalización, que da <b>odds ratios</b>: cuánto se multiplican las chances de un resultado cuando una variable sube un desvío estándar. Arriba de 1, empuja hacia republicano. Abajo de 1, hacia demócrata.</p><p>Con 25 pruebas a la vez, se corrige por comparaciones múltiples (Holm) para no celebrar casualidades.</p></div>
+<div><h4>En este trabajo</h4><p>Solo tres asociaciones sobreviven a la corrección. Más nunca casados: menos chances de republicano. Más gente fuera de la fuerza laboral: más chances. Más viudos: menos.</p><p>El ingreso y la hipoteca no se sostienen. Eso no prueba que la economía no importe: el ingreso es un promedio del condado y está en dólares de cada año.</p></div></div>
+<p class="figt">Odds ratio de ser republicano por cada desvío estándar, con intervalo del 95% (escala logarítmica)</p>
+<div class="legend"><span><i style="background:var(--ink)"></i>Se sostiene tras la corrección</span><span><i style="background:var(--bg);box-shadow:inset 0 0 0 2px var(--piz)"></i>No se sostiene</span></div>
+<div class="ors" id="ors"></div>
+<p class="note">Son relaciones entre condados, no entre personas, y no son causales. Los "nunca casados" probablemente funcionan como indicador de condados más jóvenes o urbanos, algo que la base no mide.</p>
+</div></section>
+
+<section class="band" id="cuidados"><div class="wrap">
+<p class="q">¿Qué hay que advertir antes de usarlo?</p>
+<h2>Un buen informe predictivo dice también qué no se puede afirmar</h2>
+<div class="kpis">
+<div class="kpi hot"><h3>Pendiente de calibración<br>del random forest</h3><div class="v">2,30</div><div class="c">lo ideal es 1: sus probabilidades están comprimidas</div></div>
+<div class="kpi"><h3>Probabilidad media de republicano<br>que da el modelo</h3><div class="v">43,0%</div><div class="c">contra 48,7% real: los subestima</div></div>
+<div class="kpi"><h3>Pendiente de calibración<br>de la logística</h3><div class="v">1,14</div><div class="c">mejor escalada, pero subestima más (40,8%)</div></div></div>
+<ul class="cuid">
+<li><b>Ordenar no es lo mismo que medir</b>El random forest ordena bien a los condados, pero un "70%" suyo no quiere decir 70%. Si se necesitan probabilidades, hay que recalibrarlas.</li>
+<li><b>Una sola elección de prueba</b>Son 429 condados y 29 cambios. Lo que se dice sobre las alertas es poco preciso hasta probarlo en otras elecciones.</li>
+<li><b>Cobertura despareja</b>474 condados, concentrados en zonas urbanas. Predecir condados rurales o de estados ausentes sería extrapolar.</li>
+<li><b>Datos que todavía no existen</b>En octubre de 2020, el censo de ese año no estaba publicado. En un uso real se predice con los últimos datos disponibles.</li>
+<li><b>La prueba no quedó del todo intacta</b>Una versión anterior ya había mirado 2020, y se simplificó una variable al ver que no aportaba. Los criterios de evaluación no cambiaron. Decirlo es parte del trabajo.</li>
+<li><b>Lo que queda por probar</b>Usar el margen de la elección anterior (dice más que solo quién ganó), recalibrar las probabilidades y sumar efectos por año o región.</li>
+</ul>
+<details class="an"><summary>Cinco ideas para cualquier proyecto predictivo</summary><div class="ant">
+<p><b>Entender por qué falta lo que falta.</b> Un faltante estructural no se imputa: se excluye y se explica.</p>
+<p><b>Fijar la vara antes de modelar.</b> Una línea de base exigente evita celebrar un modelo que no aporta.</p>
+<p><b>Separar como se va a usar.</b> Si se quiere anticipar el futuro, se evalúa hacia adelante y se agrupa lo que se repite.</p>
+<p><b>Decidir los criterios antes de mirar.</b> Qué métrica, qué test, qué cuenta como "sirve". Después se mira, una vez.</p>
+<p><b>Buscar el uso real.</b> Un modelo que no gana como predicción puede servir como alerta. El resultado honesto suele ser más útil que el lindo.</p>
+</div></details>
+</div></section>
+
+<footer class="band ps"><div class="wrap"><div class="pd"><div><div class="pdl">P.D.</div><div class="fig2">93,2%</div></div>
+<div><p class="pdh">La mejor predicción fue la más simple. El modelo sirve para avisar.</p>
+<p class="pdt">Repetir el ganador de 2016 acertó 93,2% de los condados en 2020. Ningún modelo con datos del censo le ganó. Pero donde el modelo contradijo a la regla, encontró 22 de los 29 condados que cambiaron de partido.</p></div></div>
+<small>Posdata: · Ah, y una cosa más: el dato. · Datos: US Census for Election Predictions 2000‑2020 (Kaggle). Elaboración propia en Python.</small></div></footer>
+
+<script>
+{
+const css=v=>getComputedStyle(document.documentElement).getPropertyValue(v).trim();
+const nf=(v,d=1)=>v.toLocaleString('es-AR',{minimumFractionDigits:d,maximumFractionDigits:d});
+/* cabecera: 429 puntos, 29 rosa */
+{const s=document.querySelector('#hero svg');
+ let seed=7;const rnd=()=>(seed=(seed*16807)%2147483647)/2147483647;
+ const pk=new Set();while(pk.size<29)pk.add(Math.floor(rnd()*429));
+ const draw=()=>{const W=s.clientWidth,H=s.clientHeight;if(!W)return;
+  let best=null;for(let c=12;c<=60;c++){const r=Math.ceil(429/c),cell=Math.min(W/c,H/r);if(!best||cell>best.cell)best={c,r,cell}}
+  const {c,cell}=best,rad=cell*.36;let g='';
+  for(let i=0;i<429;i++){const x=(i%c+.5)*cell,y=(Math.floor(i/c)+.5)*cell;
+   g+=pk.has(i)?`<circle class="pkd" style="animation-delay:${(i%29)*25}ms" cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="${(rad*1.15).toFixed(1)}" fill="#F66C89"/>`:`<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="${rad.toFixed(1)}" fill="#2A5A68"/>`}
+  s.innerHTML=g};
+ const ro=new ResizeObserver(draw);ro.observe(s)}
+/* embudo */
+{const F=[[7526,'Base original: condados y estados, 2000‑2020'],[1858,'Solo años con elección (se sacan 5.668 filas sin elección)'],[1666,'Solo condados con resultado (se sacan 188 filas de estados y la de Kansas City)'],[1662,'Sin el distrito de Alaska: base de trabajo, 474 condados']];
+ document.getElementById('funnel').innerHTML=F.map(([n,t])=>`<div class="fun"><div><div class="b" style="width:max(${(n/7526*100).toFixed(1)}%,6.5em)">${n.toLocaleString('es-AR')}</div></div><p>${t}</p></div>`).join('')}
+/* objetivo */
+{const R=[[2008,219,156],[2012,216,213],[2016,193,236],[2020,220,209]];
+ document.getElementById('rep').innerHTML=R.map(([y,d,r])=>{const t=d+r,pd=d/t*100,pr=r/t*100;return `<div class="row"><div class="lab">${y}${y===2020?' (prueba)':''}</div><div class="stack" style="position:relative"><span class="d" style="width:${pd}%">${nf(pd)}%</span><span class="r" style="width:${pr}%">${nf(pr)}%</span><i class="ref" style="left:50%"></i></div><div class="val">${t} cond.</div></div>`}).join('')}
+/* log-loss */
+{const L=[['Regresión logística',.432,''],['Random forest',.451,''],['Sin información',.693,'soft']];
+ document.getElementById('ll').innerHTML=L.map(([n,v,c])=>`<div class="row"><div class="lab">${n}</div><div class="track"><div class="bar ${c}" style="width:${v/.75*100}%"></div></div><div class="val">${nf(v,3)}</div></div>`).join('')}
+/* aciertos 2020 */
+{const A=[['Igual que 2016',93.2,90.9,95.6,'pk'],['Random forest',89.5,86.7,92.3,''],['Regresión logística',82.3,78.6,86.0,''],['Siempre demócrata',51.3,46.6,56.4,'soft']];
+ document.getElementById('acc').innerHTML=A.map(([n,v,lo,hi,c])=>`<div class="row"><div class="lab">${n}</div><div class="track"><div class="bar ${c}" style="width:${v}%"></div><i class="ci" style="left:${lo}%;width:${hi-lo}%"></i><i class="ref" style="left:50%"></i></div><div class="val">${nf(v)}%</div></div>`).join('')}
+/* alertas */
+{const M={rf:{hit:22,miss:7,fa:38,n:60},lr:{hit:22,miss:7,fa:69,n:91}};
+ const waf=document.getElementById('waf');waf.innerHTML='<i></i>'.repeat(429);const cells=[...waf.children];
+ document.getElementById('wl').innerHTML=[['hit','Cambió y el modelo avisó'],['miss','Cambió y no avisó'],['fa','Falsa alarma'],['no','Sin alerta y sin cambio']].map(([c,t])=>`<span><i class="${c}"></i>${t}</span>`).join('');
+ const set=k=>{const m=M[k],cls=[...Array(m.hit).fill('hit'),...Array(m.miss).fill('miss'),...Array(m.fa).fill('fa')];
+  cells.forEach((el,i)=>{el.className=cls[i]||''});
+  document.getElementById('kPrec').textContent=nf(m.hit/m.n*100)+'%';
+  document.getElementById('kDet').textContent=`${m.hit} de 29`;
+  document.getElementById('kFa').textContent=m.fa;
+  document.getElementById('kFac').textContent=`de ${m.n} alertas`};
+ set('rf');
+ const seg=document.querySelector('#alertas .seg');
+ seg.addEventListener('click',ev=>{const b=ev.target.closest('button');if(!b)return;[...seg.children].forEach(x=>x.setAttribute('aria-pressed',x===b));set(b.dataset.m)})}
+/* odds ratios */
+{const O=[['Nunca casados',.2075,.1421,.3032,'main','p Holm < 0,001'],['Fuera de la fuerza laboral',4.2995,2.8692,6.4429,'sig','p Holm < 0,001'],['Viudos',.5649,.4047,.7885,'sig','p Holm = 0,018'],['Con doctorado',.5573,.3778,.8221,'','p Holm = 0,07'],['Población afroamericana',.6111,.4286,.8712,'','p Holm = 0,14'],['Edad promedio',.5789,.3811,.8795,'','p Holm = 0,20'],['Ingreso individual promedio',2.4702,1.1892,5.1312,'','p Holm = 0,28']];
+ const P=v=>(Math.log10(v)+1)/2*100;
+ document.getElementById('ors').innerHTML=`<div class="axis"><div></div><div>${[.1,.25,.5,1,2,4,10].map(v=>`<span style="left:${P(v)}%">${nf(v,v<1?(v===.25?2:1):0)}</span>`).join('')}</div><div></div></div>`+
+ O.map(([n,v,lo,hi,c,p])=>`<div class="or ${c}" title="${p}"><div class="lab">${n}</div><div class="track"><i class="orl" style="left:50%"></i><i class="ln" style="left:${P(lo)}%;width:${P(hi)-P(lo)}%"></i><i class="dot" style="left:${P(v)}%"></i></div><div class="val">${nf(v,2)}</div></div>`).join('')+
+ `<div class="axis"><div></div><div><span style="left:22%">← más demócrata</span><span style="left:78%">más republicano →</span></div><div></div></div>`}
+/* dibujos de los modelos */
+{const pet='#566B81';
+ const lg=document.getElementById('svgLog');let p='';for(let i=0;i<=60;i++){const x=i*5,y=100-90/(1+Math.exp(-(x-150)/28));p+=(i?'L':'M')+x+','+y.toFixed(1)}
+ lg.innerHTML=`<line x1="0" x2="300" y1="55" y2="55" stroke="${pet}" stroke-dasharray="3 4" stroke-width="1"/><path d="${p}" fill="none" stroke="currentColor" stroke-width="3"/>`;
+ const rf=document.getElementById('svgRf');let t='';
+ [40,110,190,260].forEach((cx,k)=>{const sc=k%2?.8:1;t+=`<g stroke="currentColor" stroke-width="2" fill="none"><line x1="${cx}" y1="14" x2="${cx-26*sc}" y2="52"/><line x1="${cx}" y1="14" x2="${cx+26*sc}" y2="52"/><line x1="${cx-26*sc}" y1="52" x2="${cx-40*sc}" y2="92"/><line x1="${cx-26*sc}" y1="52" x2="${cx-12*sc}" y2="92"/><line x1="${cx+26*sc}" y1="52" x2="${cx+14*sc}" y2="92"/><line x1="${cx+26*sc}" y1="52" x2="${cx+38*sc}" y2="92"/></g><circle cx="${cx}" cy="14" r="6" fill="currentColor"/>`});
+ rf.innerHTML=t;[lg,rf].forEach(e=>e.style.color='var(--ink)')}
+/* índice activo */
+{const links=[...document.querySelectorAll('nav.steps a')];const io=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting)links.forEach(a=>a.classList.toggle('on',a.getAttribute('href')==='#'+e.target.id))})},{rootMargin:'-40% 0px -55% 0px'});
+ document.querySelectorAll('section[id]').forEach(s=>io.observe(s))}
+}
+</script>
+</body></html>
